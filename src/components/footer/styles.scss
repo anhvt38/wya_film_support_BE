@@ -1,0 +1,51 @@
+@import './../../app/variables.scss';
+
+.wrap-footer {
+    background-color: $bgFooter !important;
+}
+
+.footer {
+    color: #fff6;
+    background-color: $bgFooter !important;
+
+    &-top {
+        &-left {
+            max-width: 322px;
+            flex-wrap: wrap;
+            margin-right: 10rem;
+            a {
+                white-space: nowrap;
+            }
+        }
+    }
+
+    &-bottom {
+        color: #fff3;
+    }
+}
+
+.option-language-dropdown {
+    position: absolute;
+    z-index: 501;
+    background-color: #3a3a3a;
+    left: 50%;
+    bottom: 33px;
+    transform: translateX(-50%);
+}
+
+.wrap-option-language {
+    position: relative;
+    &:after {
+        content: "";
+        position: absolute;
+        bottom: -6px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-top: 6px solid #3a3a3a;
+    }
+}
+

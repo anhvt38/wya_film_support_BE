@@ -1,0 +1,74 @@
+.box-comment-actress {
+    margin: 20px 0;
+    color: #ffffffb3;
+    padding: 12px 12px 4px;
+    position: relative;
+
+    textarea {
+        width: 100%;
+        background: transparent;
+        border: 1px solid #6666;
+        color: #fff;
+        height: 72px;
+        padding: 5px 7px;
+        &:focus {
+            outline: none;
+        }
+    }
+
+    .close-box-comment {
+        position: absolute;
+        top: 11px;
+        right: 9px;
+        cursor: pointer;
+
+        &:hover {
+            color: #fff;
+        }
+    }
+
+    .btn-send-comment {
+        padding: .3em 0;
+        min-width: 60px;
+        background: #fc748c;
+        color: #fff;
+        border-radius: 0;
+
+        &:hover {
+            background-color: #ec4871;
+        }
+    }
+
+    .overlay-comment {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 5px;
+        position: absolute;
+        top: -12px;
+        bottom: -4px;
+        left: -12px;
+        right: -12px;
+        background-color: #000000b3;
+
+        button {
+            padding: .3em 10px;
+            min-width: 60px;
+            background: #fc748c;
+            color: #fff;
+            border-radius: 0;
+
+            &:hover {
+                background-color: #ec4871;
+            }
+        }
+    }
+
+    .wrap-ic-table-actress {
+        .icon-table-content {
+            right: -150px;
+            z-index: 100;
+        }
+    }
+}

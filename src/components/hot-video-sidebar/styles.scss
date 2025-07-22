@@ -1,0 +1,15 @@
+.hot-video-sidebar {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    
+    .group-tag {
+        display: grid;
+        gap: 3px;
+        grid-template-columns: repeat(4, 1fr);
+    }
+
+    .order-text {
+        font-family: cursive;
+    }
+}

@@ -1,0 +1,18 @@
+.popover {
+    max-width: 400px;
+    z-index: 410;
+}
+
+.popover-body {
+    background: #1E1E1E;
+    border-radius: none;
+    box-shadow: 2px 2px 3px #000;
+    color: #ffffffb3;
+    padding: 0;
+
+}
+
+.popover .popover-arrow::after,
+ .popover .popover-arrow::before {
+    border-bottom-color: #1E1E1E !important;
+ }

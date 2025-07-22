@@ -1,0 +1,156 @@
+@import './../../../app/variables.scss';
+
+.top-header {
+    background: #0B74C6;
+}
+
+.top-header-inner {
+    max-width: $maxWidthLayout;
+    margin: 0 auto;
+}
+
+.top-header-left a:hover {
+    color: #fff !important;
+}
+
+.header-nav {
+    position: sticky;
+    top: 0;
+    display: unset;
+    z-index: 50;
+}
+
+nav {
+    padding: 24px 0 !important;
+}
+
+.menuzord {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.btn-menu-top {
+    border-radius: 30px !important;
+    padding: 8px 16px !important;
+    text-transform: uppercase;
+    font-weight: 600 !important;
+    font-size: 13px !important;
+    background: transparent !important;
+}
+
+.btn-menu-top.active,
+.btn-menu-top:hover {
+    background: $mainColor !important;
+    color: #fff !important;
+
+}
+
+.btn-menu-top:focus {
+    box-shadow: none !important;
+}
+
+.submenu-top {
+    background-color: #fff !important;
+    min-width: max-content;
+
+    top: 0;
+    right: 100%;
+}
+
+.submenu-top ul {
+    margin: 0 !important;
+}
+
+.submenu-top ul li:hover {
+    background-color: $mainColor !important;
+
+}
+
+.submenu-top>ul>li:hover>a {
+
+    color: #fff !important;
+}
+
+.submenu-top ul li a {
+    color: #000 !important;
+    text-transform: uppercase;
+    font-weight: 500;
+}
+
+.menuzord-menu li .indicator {
+    position: absolute;
+    top: 8px;
+    right: 10px;
+    font-size: 15px;
+}
+
+.btn-menu-top .indicator {
+    margin-left: 3px;
+}
+
+.icon-menu {
+    font-size: 25px;
+    cursor: pointer;
+    color: $darkText;
+}
+
+@media (max-width: 992px) {
+    nav {
+        position: relative !important;
+    }
+
+    .wrapper-menu {
+        position: absolute;
+        width: 100%;
+        top: 100%;
+        background-color: #fff;
+        padding: 0;
+    }
+
+    .wrapper-menu>div {
+        display: block;
+    }
+
+    .btn-menu-top {
+        width: 100%;
+        border-radius: 0px !important;
+        padding: 8px 12px !important;
+        justify-content: space-between !important;
+    }
+
+    .btn-menu-top,
+    .submenu-top li {
+
+        border-bottom: 0.5px solid silver;
+        border-bottom-width: 0.5px !important;
+    }
+
+    .submenu-top {
+        position: relative !important;
+        width: 100%;
+        box-shadow: none !important;
+        top: 8px;
+        left: 0;
+    }
+
+    .submenu-top .submenu-top {
+        width: calc(100% + 42px);
+        left: -30px;
+    }
+
+    .submenu-top .submenu-top li {
+        padding-left: 60px;
+    }
+
+    .submenu-top ul li {
+        display: block;
+        padding-left: 30px;
+
+    }
+
+    .indicator i {
+        font-size: 15px;
+    }
+}
+

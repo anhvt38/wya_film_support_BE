@@ -1,0 +1,10 @@
+.header-login-info {
+    background: url(/bg-header-login.png) no-repeat 67% 30%;
+    background-size: cover;
+
+    .active-now {
+        background: linear-gradient(to bottom, #fdebc4, #ffc9a6);
+        color: #b55e46;
+        font-weight: bold;
+    }
+}

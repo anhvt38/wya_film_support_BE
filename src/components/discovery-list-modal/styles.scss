@@ -1,0 +1,63 @@
+.followed-local-modal {
+    .modal-content {
+        border-radius: 0;
+    }
+
+    .auth-close-btn {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        cursor: pointer;
+        color: #bbb;
+        font-size: 24px;
+    }
+
+    .followed-local-right {
+        height: 200px;
+        background-color: #313136;
+        flex: 1;
+        padding: 40px 50px;
+
+        &>div {
+            padding: 55px 20px 0;
+            position: relative;
+
+            .back-to-login {
+                position: absolute;
+                top: 0;
+                left: 0;
+                color: #ffffff99;
+                cursor: pointer;
+            }
+        }
+
+        .message.noIcon {
+            color: #fff;
+            display: flex;
+            position: absolute;
+            left: 0;
+            right: 0;
+            align-items: center;
+            justify-content: center;
+            padding-bottom: 60px;
+            padding-top: 60px;
+        }
+
+        .dn-dialog-buttons {
+            width: 100%;
+            position: absolute;
+            display: flex;
+            justify-content: center;
+            bottom: 0;
+            left: 0;
+            padding: 15px 0;
+            text-align: center;
+            border-top: 2px solid #3a3a3a;
+        }
+
+        .dn-dialog-button-text {
+            color: #fff;
+            cursor: pointer;
+        }
+    }
+}

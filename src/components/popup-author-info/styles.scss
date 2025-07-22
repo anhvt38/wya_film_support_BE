@@ -1,0 +1,19 @@
+.author-avatar {
+    z-index: 50;
+    transition: transform 0.3s ease;
+    position: relative;
+    &:hover {
+        &+.wrap-author-info {
+            display: block;
+        }
+    }
+}
+
+.wrap-author-info {
+    display: none;
+
+    &:hover {
+        display: block;
+    }
+
+}

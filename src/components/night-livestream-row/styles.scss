@@ -1,0 +1,23 @@
+.night-livestream-row-slider {
+    .prev-arrow,
+    .next-arrow {
+        position: absolute;
+        top: 110px;
+        svg {
+            font-size: 3rem;
+            cursor: pointer;
+
+            &:hover {
+                color: #fff;
+            }
+        }
+    }
+
+    .prev-arrow {
+        left: 0;
+    }
+
+    .next-arrow {
+        right: 0;
+    }
+}

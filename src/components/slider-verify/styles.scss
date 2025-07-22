@@ -1,0 +1,57 @@
+.slider-verify {
+    border-radius: 8px;
+    height: 48px;
+    border: '1px solid #ccc';
+    position: relative;
+    width: 100%;
+    background-color: #2A2C39;
+    overflow: hidden;
+
+    .tow-bar {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+    }
+
+    .text-content-verify {
+        line-height: 48px;
+        font-size: 14px;
+        color: rgba(255, 255, 255, 0.4);
+        margin-left: 90px;
+        position: absolute;
+        top: 0;
+        left: 0;
+    }
+
+    .wrap-verified-loading {
+        z-index: 1;
+        border-top-right-radius: 8px;
+        border-bottom-right-radius: 8px;
+        background: #224961;
+        position: relative;
+        top: 0;
+        left: 0;
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+
+        .text-verified-loading {
+            color: rgb(0, 192, 255);
+        }
+    }
+
+
+    .btn-drag-verify {
+        position: absolute;
+        background: #383844;
+        height: 48px;
+        line-height: 48px;
+        width: 65px;
+        text-align: center;
+        z-index: 2;
+        top: 0;
+
+    }
+}

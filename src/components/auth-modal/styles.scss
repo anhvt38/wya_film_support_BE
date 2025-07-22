@@ -1,0 +1,65 @@
+.auth-modal {
+    .modal-content {
+        border-radius: 0;
+    }
+
+    .auth-close-btn {
+        position: absolute;
+        top: 20px;
+        right: 20px;
+        cursor: pointer;
+        color: #bbb;
+        font-size: 24px;
+    }
+
+    .auth-left {
+        position: relative;
+
+        span {
+            position: absolute;
+            top: 5px;
+            left: 8px;
+            text-shadow: 2px 2px #000;
+            color: #fff;
+            opacity: 0.5;
+            font-size: 12px;
+        }
+    }
+
+    .auth-right {
+        background-color: #1c1d2f;
+        flex: 1;
+        padding: 40px 50px;
+
+        &>div {
+            padding: 55px 20px 0;
+            position: relative;
+
+            .back-to-login {
+                position: absolute;
+                top: 0;
+                left: 0;
+                color: #ffffff99;
+                cursor: pointer;
+            }
+        }
+
+        .title-verify-account {
+            position: absolute;
+            left: 50%;
+            transform: translateX(-50%);
+            top: -4px;
+        }
+
+        .title-email-verified {
+            color: #A4A5AC;
+            color: #A4A5AC;
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            white-space: nowrap;
+            font-weight: 400;
+        }
+    }
+}

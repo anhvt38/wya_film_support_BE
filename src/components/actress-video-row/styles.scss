@@ -1,0 +1,17 @@
+.actress-video-row {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    gap: 5px;
+}
+
+@media (min-width:  1280px) {
+    .actress-video-row {
+    grid-template-columns: repeat(6, 1fr);
+    }
+}
+
+@media (min-width:  1912px) {
+    .actress-video-row {
+        grid-template-columns: repeat(8, 1fr);
+    }
+}

@@ -1,0 +1,25 @@
+.all-tags {
+    
+        display: flex;
+    align-items: flex-start;
+
+    &>div {
+        display: flex;
+        flex-wrap: wrap;
+        row-gap: 15px;
+        margin-bottom: 15px;
+    }
+    a {
+        height: 22px;
+        line-height: 19px;
+        padding: 2px 17px 1px;
+        cursor: pointer;
+        color: #ffffffb3;
+        white-space: nowrap;
+    }
+
+    a.active {
+        color: #fff;
+        background-color: #fc748c;
+    }
+}

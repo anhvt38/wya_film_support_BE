@@ -1,0 +1,30 @@
+.actress-album-row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    gap: 5px;
+}
+
+
+@media (min-width: 1280px) {
+    .actress-album-row {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
+@media (min-width: 1440px) {
+    .actress-album-row {
+        grid-template-columns: repeat(6, 1fr);
+    }
+}
+
+@media (min-width: 1679px) {
+    .actress-album-row {
+        grid-template-columns: repeat(7, 1fr);
+    }
+}
+
+@media (min-width: 1912px) {
+    .actress-album-row {
+        grid-template-columns: repeat(8, 1fr);
+    }
+}

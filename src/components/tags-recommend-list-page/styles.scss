@@ -1,0 +1,43 @@
+.tags-homepage{
+    font-size: 13px;
+}
+
+.tags-homepage-left-3 {
+    width: max-content;
+} 
+
+.tags-homepage-center-3 {
+    flex: 1;
+    font-size: 12px !important;
+    ul {
+        row-gap: 15px;
+    }
+        li {
+        padding: 2px 17px 1px;
+        border-radius: 0 !important;
+        span {
+            color: #ffffffb3;
+        }
+    }
+}
+
+.recommended-active{
+    background: #fc748c !important;
+    span {
+        color: #fff !important;
+    }
+}
+
+.tags-homepage-left-3 {
+.item-recommended-default{ 
+    border-radius: 0 !important;
+    padding: 0;
+    a {
+        padding: 1px 15px;
+        &:hover {
+            color: #fff;
+        }
+    }
+
+}
+}

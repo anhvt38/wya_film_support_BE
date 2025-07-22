@@ -1,0 +1,175 @@
+.search-user-item {
+    display: flex;
+    gap: 20px;
+    position: relative;
+
+    &>a {
+        position: relative;
+
+        img {
+            width: 122px;
+            height: 122px;
+            object-fit: cover;
+            border-radius: 999px;
+        }
+    }
+
+    &-right {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+
+        h4 {
+            max-width: 380px;
+        }
+
+        .search-user-tags {
+            display: flex;
+            gap: 10px;
+
+            span {
+                color: #ffffffb3;
+                background-color: #272727;
+                font-size: 12px;
+                padding: .1em 0;
+                width: 55px;
+                text-align: center;
+            }
+
+            &+strong {
+                font-size: 20px;
+                font-weight: 400;
+                color: #ffb400;
+                margin: 0 10px;
+            }
+        }
+
+        .list-movie-search {
+            &>span {
+                cursor: pointer;
+                position: relative;
+
+                &:after {
+                    content: "";
+                    position: absolute;
+                    width: 12px;
+                    height: 3px;
+                    background-color: #fc748c;
+                    right: 0;
+                    left: 50%;
+                    bottom: -9px;
+                    transform: translateX(-50%);
+                }
+            }
+
+            &>div {
+                display: flex;
+                gap: 20px;
+                margin-top: 20px;
+                position: relative;
+
+                a:last-child {
+                    position: absolute;
+                    right: 0;
+                    top: 50%;
+                    transform: translateY(-50%);
+                }
+
+                a:hover {
+                    p {
+                        color: #fc748c !important;
+                    }
+                }
+            }
+
+            &-item {
+                width: 126px;
+                height: 180px;
+                img {
+                    width: 100%;
+                    height: 100%;
+                }
+
+                p {}
+            }
+        }
+
+        .list-video-search {
+            &>span {
+                cursor: pointer;
+                position: relative;
+
+                &:after {
+                    content: "";
+                    position: absolute;
+                    width: 12px;
+                    height: 3px;
+                    background-color: #fc748c;
+                    right: 0;
+                    left: 50%;
+                    bottom: -9px;
+                    transform: translateX(-50%);
+                }
+            }
+
+            &>div {
+                display: flex;
+                gap: 20px;
+                margin-top: 20px;
+                position: relative;
+
+                a:last-child {
+                    position: absolute;
+                    right: 0;
+                    top: 50%;
+                    transform: translateY(-50%);
+                }
+
+                a:hover {
+                    p {
+                        color: #fc748c !important;
+                    }
+                }
+            }
+
+            &-item {
+                img {
+                    width: 186px;
+                    height: 104px;
+                }
+
+                p {}
+            }
+
+            .video-search-item-time {
+                height: 28px;
+                position: absolute;
+                bottom: 0;
+                width: 100%;
+                color: #fff;
+                display: flex;
+                justify-content: flex-end;
+                align-items: flex-end;
+                padding-right: 7px;
+                padding-bottom: 5px;
+                background: linear-gradient(180deg, #0000, #00000080);
+            }
+        }
+    }
+
+    &>button {
+        position: absolute;
+        right: 0;
+        top: 0;
+        line-height: 38px;
+        text-align: center;
+        font-size: 15px;
+        border-radius: 2px;
+        background-color: #fc748c;
+        color: #fff;
+        border: 1px solid #0000;
+        cursor: pointer;
+        width: 88px;
+        height: 38px;
+    }
+}

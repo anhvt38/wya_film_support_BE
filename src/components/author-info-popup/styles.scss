@@ -1,0 +1,44 @@
+.author-info-popup {
+    position: absolute;
+    top: 0px;
+    left: -14px;
+    width: 340px;
+    z-index: 100;
+
+    &>div:first-child {
+        padding: 20px 10px 10px 20px;
+        background: url(/bg-author.jpg) 100% 0 no-repeat;
+        background-size: cover;
+        .row-author-info {
+            display: grid;
+            grid-template-columns: 1fr 2.5fr;
+
+            .progress {
+                background-color: #8b867e;
+                height: 5px;
+            }
+            .progress-bar {
+                background-color: #00c0ff;
+            }
+        }
+    }
+
+    &>div:last-child {
+        background-color: #222222;
+
+        .link-home-profile {
+            background-color: #3a3a3a;
+        }
+    }
+
+    .author-ic-bg-1,
+    .author-ic-bg-2 {
+        width: 20px;
+        height: 20px;
+        background: url(/bg-author-popup.png) no-repeat;
+    }
+
+    .author-ic-bg-1 {
+        background-position: 100% 104%;
+    }
+}

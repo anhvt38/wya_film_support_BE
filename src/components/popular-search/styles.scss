@@ -1,0 +1,25 @@
+.popular-search {
+    background-color: #1d1d1d;
+
+    ul {
+        border-radius: 0;
+    }
+    li {
+        padding: 0;
+        &:hover {
+            background: #2a2a2a !important;
+        }
+    }
+
+    .delete-history-search {
+        color: white;
+        cursor: pointer;
+        &:hover {
+            color: red;
+        }
+    }
+
+    .order-text {
+        font-family: cursive;
+    }
+}

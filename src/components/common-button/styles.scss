@@ -1,0 +1,13 @@
+.btn-common {
+    display: flex;
+    gap: 6px;
+    justify-content: center;
+    align-items: center;
+    padding: 0.4rem 1rem;
+    transition: 0.4s;
+    position: relative;
+}
+
+.btn-common:hover {
+    transform: scale(1.05);
+}

@@ -1,0 +1,11 @@
+.related-videos {
+    .view-time-video {
+        position: absolute;
+        bottom: 0;
+        display: flex;
+        justify-content: space-between;
+        width: 100%;
+        padding: 2px 5px;
+        background: linear-gradient(180deg,#0000,#000000e6 90%,#000);
+    }
+}

@@ -1,0 +1,29 @@
+.new-video-item {
+    .video-item-thumbnail {
+        transition: 0.4s;
+        &:hover {
+            transform: scale(1.05);
+        }
+    }
+    
+    .view-time {
+        background: linear-gradient(to top, black 0%, rgba(52, 152, 219, 0) 100%);   
+    }
+
+    .wrap-video-item {
+        height: 245px;
+        video {
+            width: 100%;
+            height: 245px;
+            object-fit: cover;
+        }
+    }
+}
+
+.rounded-full{
+    border-radius: 50%;
+}
+
+.align-items-center{
+    font-size: 11px;
+}

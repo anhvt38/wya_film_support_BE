@@ -1,0 +1,21 @@
+.detail-video-comment {
+    margin-top: 50px;
+
+    .comment-content-tabs {
+        .nav-link {
+                cursor: pointer;
+                color: #fff6 ;
+                background-color: #1d1d1d;
+                padding: 4px 16px;
+                font-size: 16px;
+                &:hover {
+                color: #ffffffb3 !important;
+                }
+        }
+
+        .nav-link.active {
+                color: #ffffffb3 !important;
+                background-color: #272727 !important;
+        }
+    }
+}

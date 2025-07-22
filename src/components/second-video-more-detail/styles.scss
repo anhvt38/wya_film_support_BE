@@ -1,0 +1,57 @@
+.second-video-more-detail {
+    padding: 0 20px;
+}
+
+.wrap-chartdiv {
+    display: flex;
+    justify-content: space-between;
+
+    &>div {
+        width: 49%;
+    }
+}
+
+#chartdiv {
+    height: 100%;
+    width: 300px;
+
+}
+
+.chart-right {
+    width: calc(100% - 300px);
+    .options-filter-chart {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        margin-bottom: 20px;
+        &>div {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            span {
+                width: 50px;
+                color: #fff;
+                background: #272727;
+                text-align: center;
+            }
+        }
+    }
+}
+
+#chartRight {
+    height: 250px;
+}
+
+.wrap-note-chart {
+    display: grid;
+    height: max-content;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 10px;
+    flex: 1;
+
+    .chart-dot-note {
+        width: 10px;
+        height: 10px;
+        border-radius: 999px;
+    }
+}

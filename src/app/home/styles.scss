@@ -1,0 +1,46 @@
+@import "../variables.scss";
+
+.wrap-main-videos {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+
+    .main-videos {
+        padding-right: 0;
+        grid-column: span 8;
+    }
+
+    .rank-hot {
+        grid-column: span 0;
+        display: none;
+    }
+
+}
+
+@media (min-width: 1679px) {
+    .wrap-main-videos {
+
+        .rank-hot {
+            display: block;
+        grid-column: span 2;
+
+        }
+
+        .main-videos {
+        grid-column: span 5;
+    }
+
+    }
+
+}
+
+@media (min-width: 1912px) {
+    .wrap-main-videos {
+    grid-template-columns: repeat(8, 1fr);
+
+        .main-videos {
+            grid-column: span 6;
+        }
+
+    }
+
+}

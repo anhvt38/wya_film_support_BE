@@ -1,0 +1,49 @@
+.custom-switch {
+    position: relative;
+    width: max-content;
+    display: flex;
+    align-items: center;
+    height: 17px;
+    cursor: pointer;
+}
+
+.custom-switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+.custom-switch .slider {
+    position: absolute;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    border: 1px solid #ffffffb3;
+    background: #1D1D1D;
+    border-radius: 34px;
+    transition: 0.3s;
+    width: 29px;
+}
+
+.custom-switch .slider::before {
+    content: "";
+    position: absolute;
+    height: 11px;
+    width: 11px;
+    left: 3px;
+    bottom: 2px;
+    background-color: #ffffffb3;
+    border-radius: 50%;
+    transition: 0.3s;
+}
+
+/* Khi được bật */
+.custom-switch input:checked+.slider {
+    background-color: #fc748c !important;
+    border-color: #fc748c !important;
+}
+
+.custom-switch input:checked+.slider::before {
+    transform: translateX(11px);
+    background: #fff;
+}

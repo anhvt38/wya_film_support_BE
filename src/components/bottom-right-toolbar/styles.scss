@@ -1,0 +1,85 @@
+@import "../../app/variables.scss";
+
+.bottom-right-toolbar {
+    position: fixed;
+    bottom: 30px;
+    right: 25px;
+    z-index: 1000;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+
+    .toolbar {
+        background-color: #272727;
+        border-radius: 999px;
+        padding: 15px 0;
+
+        &>div {
+            position: relative;
+            z-index: 5;
+            cursor: pointer;
+            overflow: hidden;
+            &:hover {
+                overflow: initial;
+                span {
+                    right: 100%;
+                    max-width: 300px;
+                    opacity: 1;
+                }
+
+                .wrap-icon {
+                background-color: $pinkText;
+
+                }
+
+            }
+
+            .wrap-icon {
+                position: relative;
+                z-index: 10;
+                padding: 8px 10px;
+
+                .hot-badge {
+                    background-color: red;
+                    padding: 0 5px;
+                    border-radius: 999px;
+                    position: absolute;
+                    font-size: 8px;
+                    top: 0;
+                    right: 0%;
+                }
+
+            }
+        }
+
+
+        span {
+            position: absolute;
+            white-space: nowrap;
+            top: 0;
+            right: 0;
+            padding: 0 12px;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            border-top-left-radius: 999px;
+            border-bottom-left-radius: 999px;
+            transition: max-width 0.4s;
+            opacity: 0;
+            max-width: 0;
+            z-index: 0;
+            overflow: hidden;
+        }
+    }
+}
+
+.appIconColor {
+    content: "";
+    // background-image: url("/hot-icon.png");
+    // position: absolute;
+    // right: -4px;
+    // top: -3px;
+    // width: 24px;
+    // height: 10px;
+}

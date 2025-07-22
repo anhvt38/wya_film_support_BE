@@ -1,0 +1,39 @@
+.login-noti-modal {
+        z-index: 2000;
+
+    .modal-content {
+        border-radius: 0;
+        background-color: #272727;
+        .modal-body {
+            padding: 80px 0;
+            svg {
+                position: absolute;
+                right: 10px;
+                top: 10px;
+                cursor: pointer;
+                font-size: 22px;
+            }
+        }
+    }
+
+    .modal-footer {
+        border-top: 2px solid #3a3a3a;
+        padding: 0;
+        span {
+            width: 2px;
+            background: #3a3a3a;
+            display: block;
+            height: 67px;
+            margin: 0;
+        }
+
+        div {
+            width: calc((100% / 2) - 1px);
+            margin: 0;
+            cursor: pointer;
+            line-height: 67px;
+            text-align: center;
+        }
+
+    }
+}

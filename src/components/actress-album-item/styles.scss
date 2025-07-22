@@ -1,0 +1,24 @@
+.actress-album-item {
+    .image-total-badge {
+        bottom: 5px;
+        left: 5px;
+    }
+
+    &>div {
+        overflow: hidden;
+    }
+
+    .item-actress-info {
+        margin-top: -5px;
+
+    }
+}
+
+.actress-item-thumbnail {
+    transition: 0.4s;
+    &:hover {
+        transform: scale(1.1);
+    }
+}
+
+

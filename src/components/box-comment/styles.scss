@@ -1,0 +1,73 @@
+.box-comment {
+    margin: 20px 0;
+    color: #ffffffb3;
+    padding: 20px 15px 10px;
+    position: relative;
+    background: #1D1D1D !important;
+    textarea {
+        width: 100%;
+        background: transparent;
+        border: none;
+        color: #fff;
+
+        &:focus {
+            outline: none;
+        }
+    }
+
+    .close-box-comment {
+        position: absolute;
+        top: 11px;
+        right: 9px;
+        cursor: pointer;
+
+        &:hover {
+            color: #fff;
+        }
+    }
+
+    .btn-send-comment {
+        padding: .3em 0;
+        min-width: 60px;
+        background: #fc748c;
+        color: #fff;
+        border-radius: 0;
+
+        &:hover {
+            background-color: #ec4871;
+        }
+    }
+
+    .overlay-comment {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-direction: column;
+        gap: 5px;
+        position: absolute;
+        top: 0;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background-color: #000000b3;
+
+        button {
+            padding: .3em 10px;
+            min-width: 60px;
+            background: #fc748c;
+            color: #fff;
+            border-radius: 0;
+
+            &:hover {
+                background-color: #ec4871;
+            }
+        }
+    }
+
+    .wrap-ic-table {
+        .icon-table-content {
+            right: -470px;
+            z-index: 100;
+        }
+    }
+}

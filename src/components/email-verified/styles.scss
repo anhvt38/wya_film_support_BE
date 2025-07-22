@@ -1,0 +1,20 @@
+.email-verified {
+    display: flex;
+    justify-content: center;
+    button {
+        width: max-content;
+        text-align: center;
+        padding: 0 13px;
+        color: #00c0ff;
+        font-size: 16px;
+        border: 1px solid rgba(0, 192, 255, 0.6);
+        background-color: transparent;
+        line-height: 48px;
+        border-radius: 8px;
+        margin-top: 40px;
+        &:hover {
+        color: #00c0ff;
+            border: 1px solid rgba(0, 192, 255, 1);
+        }
+    }
+}

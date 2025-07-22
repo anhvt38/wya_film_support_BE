@@ -1,0 +1,10 @@
+.empty-search-result {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 7px;
+    padding-top: 50px;
+    img + p {
+        font-weight: 500;
+    }
+}

@@ -1,0 +1,28 @@
+.comment-item {
+    padding-left: 15px;
+
+    &-author {
+        margin-left: 21px;
+    }
+
+    &-content {
+        margin-left: 70px;
+    }
+
+    .action-like-comment {
+        margin: 0 50px 0 140px;
+    }
+
+    .wrap-block {
+        position: absolute;
+        top: 23px;
+        right: 5px;
+        border: 1px solid #6663;
+        border-bottom: none;
+        display: flex;
+        flex-direction: column;
+        span {
+            border-bottom: 1px solid #6663;
+        }
+    }
+}

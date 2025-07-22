@@ -1,0 +1,40 @@
+.livestream-video-item {
+    
+    .view-time {
+        background: linear-gradient(to top, black 0%, rgba(52, 152, 219, 0) 100%);   
+    }
+    
+    .livestream-item-title {
+        z-index: 100;
+        color: #fff;
+        background: linear-gradient(to bottom, black 0%, rgba(52, 152, 219, 0) 100%);   
+    }
+    
+    .livestream-avatar {
+        position: relative;
+    }
+    .livestream-dot {
+        width: 10px;    
+        height: 10px;
+        border-radius: 999px;
+        background-color: #0aeb0a;
+        position: absolute;
+        bottom: 0;
+        right: -4px;
+    }
+
+    .span-live {
+        background-color: #dd3636;
+        color: white;
+    }
+
+    .wrap-video-item {
+        height: 245px;
+        video {
+            width: 100%;
+            height: 245px;
+            object-fit: cover;
+        }
+    }
+    
+}

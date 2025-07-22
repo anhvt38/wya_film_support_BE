@@ -1,0 +1,52 @@
+.new-upload-row-slider {
+    .prev-arrow,
+    .next-arrow {
+        position: absolute;
+        top: 110px;
+        svg {
+            font-size: 3rem;
+            cursor: pointer;
+
+            &:hover {
+                color: #fff;
+            }
+        }
+    }
+
+    .prev-arrow {
+        left: 0;
+    }
+
+    .next-arrow {
+        right: 0;
+    }
+}
+
+.new-upload-row-normal {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    column-gap: 5px;
+    row-gap: 20px;
+}
+
+
+@media (max-width: 1280px) {
+    .new-upload-row-normal {
+        grid-template-columns: repeat(3, 1fr);
+
+    }
+}
+
+@media (max-width: 767px) {
+    .new-upload-row-normal {
+        grid-template-columns: repeat(2, 1fr);
+
+    }
+}
+
+@media (max-width: 575px) {
+    .new-upload-row-normal {
+        grid-template-columns: repeat(1, 1fr);
+
+    }
+}

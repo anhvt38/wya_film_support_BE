@@ -1,0 +1,76 @@
+.actress-video-row {
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    row-gap: 35px;
+    float: left;
+    column-gap: 6px;
+}
+
+.actress-video-japan-row {
+    display: grid;
+    grid-template-columns: repeat(8, 1fr);
+    gap: 35px;
+    float: left;
+}
+
+.tags-homepage-center-6 {
+    float: left;
+    margin-top: 19px;
+    font-size: 14px !important;
+}
+
+.tags-home-rank-6 {
+    float: right;
+    margin-top: 27px;
+}
+
+.home-rank-link{
+    margin-left: 5px;
+    color: #fc748c !important;
+}
+
+.page-control {
+    float: left;
+    margin-left: 650px;
+}
+
+@media (max-width: 1024px) {
+    .actress-video-row {
+        grid-template-columns: repeat(4, 1fr);
+
+    }
+    .actress-video-japan-row {
+        grid-template-columns: repeat(6, 1fr);
+    }
+}
+
+@media (max-width: 992px) {
+    .actress-video-row {
+        grid-template-columns: repeat(3, 1fr);
+
+    }
+    .actress-video-japan-row {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
+@media (max-width: 767px) {
+    .actress-video-row {
+        grid-template-columns: repeat(3, 1fr);
+
+    }
+
+    .actress-video-japan-row {
+        grid-template-columns: repeat(4, 1fr);
+    }
+}
+
+@media (max-width: 575px) {
+    .actress-video-row {
+        grid-template-columns: repeat(2, 1fr);
+
+    }
+    .actress-video-japan-row {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}

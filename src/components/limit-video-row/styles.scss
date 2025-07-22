@@ -1,0 +1,30 @@
+.limit-video-row {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    column-gap: 5px;
+    row-gap: 30px;
+}
+
+.slider-video-row {
+    .slick-arrow {
+        height: 310px !important;
+    }
+}
+
+@media (min-width: 1440px) {
+    .limit-video-row {
+        grid-template-columns: repeat(6, 1fr);
+    }
+}
+
+@media (min-width: 1679px) {
+    .limit-video-row {
+        grid-template-columns: repeat(5, 1fr);
+    }
+}
+
+@media (min-width: 1912px) {
+    .limit-video-row {
+        grid-template-columns: repeat(6, 1fr);
+    }
+}

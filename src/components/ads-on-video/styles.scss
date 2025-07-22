@@ -1,0 +1,22 @@
+.ads-on-video {
+    position: absolute;
+    width: max-content;
+    height: 50%;
+    top: 45%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 100;
+    .close-ads {
+        position: absolute;
+        top: -20px;
+        right: -30px;
+        font-size: 26px;
+        color: #fff;
+        cursor: pointer;
+    }
+
+    .btn-ads {
+        width: 100%;
+        height: auto;
+    }
+}

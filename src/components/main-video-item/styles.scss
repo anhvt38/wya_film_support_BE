@@ -1,0 +1,114 @@
+.main-video-item {
+    position: relative;
+    .view-time {
+        background: linear-gradient(to top, black 0%, rgba(52, 152, 219, 0) 100%);
+    }
+
+    &:hover {
+        .video-deep-info {
+
+            &>div {
+                &:first-child {
+                    opacity: 1;
+
+                }
+
+                &:last-child {
+                    margin-top: 0;
+                }
+            }
+        }
+    }
+
+    .updates-num {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        padding: 0px 5px;
+        border-radius: 4px;
+        z-index: 100;
+    }
+}
+
+.video-deep-info {
+    top: 0;
+    &>div {
+        &:first-child {
+            opacity: 0;
+            height: 63%;
+            background-color: rgba(0, 0, 0, 0.2);
+            z-index: 0;
+            transition: opacity 0.1s, transform 0.4s;
+            &:hover {
+                transform: scale(1.6);
+                color: #fff;
+                transition: 0.4s;
+            }
+        }
+
+        &:last-child {
+            transition: 0.2s;
+            position: relative;
+            z-index: 5;
+            margin-top: 100%;
+            background-color: #1e1e1d;
+        }
+    }
+}
+
+.tags-video {
+
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 4px;
+
+    small {
+        background: #272727;
+        padding: 1px;
+        color: #bfbfbf;
+    }
+}
+
+.hover-video-option {
+    display: none;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    gap: 5px;
+    &>div {
+        width: 30px;
+        height: 30px;
+        border-radius: 999px;
+        background-color: #fff;
+        color: #2057fb;
+        opacity: 0.4;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        svg {
+            font-size: 1.4rem;
+        }
+
+        &:hover {
+            opacity: 1;
+        }
+
+        &:not(:first-child) {
+            display: none;
+        }
+        
+    }
+
+    &:hover {
+        div {
+            display: flex;
+        }
+    }
+}
+
+.wrap-main-video:hover {
+    .hover-video-option {
+        display: flex;
+    flex-direction: column;
+    }
+}

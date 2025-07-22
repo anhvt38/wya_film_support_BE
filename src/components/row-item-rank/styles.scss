@@ -1,0 +1,153 @@
+.ranking-content {
+    min-height: 720px;
+    min-width: 1020px;
+    max-width: 1920px;
+    margin: 0 auto;
+    background-color: #121212;
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    padding: 6px 0px;
+}
+
+.column-container {
+    width: 425px;
+    min-height: 640px;
+    background-color: #6663;
+    margin: 5px;
+    padding: 20px 25px 5px;
+}
+
+.column-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-end;
+}
+
+.content-ranking-title {
+    font-size: 21px;
+    font-weight: 700;
+}
+
+.ranking-filter {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+.filter-type.current {
+    color: #fc748c;
+}
+
+.filter-type {
+    margin: 0 5px;
+    cursor: pointer;
+}
+
+.column-content {
+    padding: 15px 0 5px;
+}
+
+.top3-container {
+    margin: 20px 0;
+    display: flex;
+    transition: all .4s;
+}
+
+.rank-number {
+    width: 30px;
+    height: 30px;
+    line-height: 30px;
+    text-align: center;
+    position: absolute;
+    z-index: 3;
+}
+
+.top3-cover {
+    cursor: pointer;
+    margin-left: 40px;
+}
+
+.cover {
+    position: absolute;
+    z-index: 2;
+    height: 40px;
+    width: 120px;
+    margin-top: 132px;
+    background: linear-gradient(#30303000, #000000a8);
+}
+
+.cover-ctn {
+    width: 120px;
+    height: 172px;
+}
+
+.cover-path {
+    width: 120px;
+    height: 172px;
+}
+
+.top3-context {
+    margin-left: 25px;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+}
+
+.text-ellipsis-item-rank-all {
+    max-width: 210px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.top3-title{
+    color: #fff;
+    font-size: 16px;
+    margin-bottom: 12px;
+    cursor: pointer;
+}
+
+.top3-title:hover {
+    color: #fc748c;
+}
+
+.top3-info-box {
+    color: #ffffffb3;
+    margin: 0 3px;
+    width: 43px;
+    height: 22px;
+    line-height: 22px;
+    text-align: center;
+    font-size: 12px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    background-color: #272727;
+    cursor: default;
+}
+
+.hot-number{
+    color: #ffffffb3;
+    font-size: 14px;
+    position: absolute;
+    z-index: 3;
+    margin-top: 140px;
+    // margin-left: 20px;
+}
+
+.hot-number::before {
+    content: "";
+    width: 9px;
+    height: 12px;
+    position: absolute;
+    margin-top: 4px;
+    margin-left: -20px;
+    // background: url("/hot-icon.png") no-repeat 50%;
+}
+
+.rank-all-item-thumbnail {
+    transition: 0.4s;
+    &:hover {
+        transform: scale(1.1);
+    }
+}

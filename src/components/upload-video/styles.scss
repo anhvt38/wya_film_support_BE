@@ -1,0 +1,28 @@
+.upload-video {
+    li {
+        padding: 0;
+        margin-top: 10px;
+    }
+
+    .upload-movie-question {
+        position: relative;
+
+        &:after {
+            content: "下载视频";
+            position: absolute;
+            left: 100%;
+            top: 100%;
+            padding: 6px;
+            background-color: black;
+            display: none;
+            white-space: nowrap;
+
+        }
+
+        &:hover {
+            &:after {
+                display: block;
+            }
+        }
+    }
+}

@@ -1,0 +1,44 @@
+@import "../../app/variables.scss";
+
+.sound-range {
+    height: 200px;
+    width: 50px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    input {
+        -webkit-appearance: none;
+        transform: rotate(-90deg);
+        width: 200px;
+        height: 3px;
+        outline: none;
+        cursor: pointer;
+    }
+}
+
+/* Track (thanh ngang) */
+#sound-input::-webkit-slider-runnable-track {
+    height: 3px;
+}
+
+/* Thumb (nút kéo) */
+#sound-input::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    background: $pinkText;
+    width: 10px;
+    height: 10px;
+    margin-top: -3px;
+    cursor: pointer;
+    
+
+}
+
+#sound-input::-moz-range-thumb {
+    background: $pinkText;
+    width: 16px;
+    height: 16px;
+    border-radius: 50%;
+    cursor: pointer;
+}

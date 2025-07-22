@@ -1,0 +1,45 @@
+.icon-table {
+    position: relative;
+    .face-ic {
+        color: #888;
+    }
+
+    &-content {
+        position: absolute;
+        bottom: 50px;
+        background-color: #272727;
+        text-align: left;
+        width: 470px;
+        height: 200px;
+
+        .tabs {
+            height: 100%;
+            display: flex;
+            flex-direction: column-reverse;
+
+            .nav {
+                flex-wrap: nowrap;
+            }
+
+            .nav .nav-link {
+                color: #ffffffb3;
+                padding: 6px 8px;
+                border-radius: 0;
+                &:hover {
+                    color: #fff !important;
+                }
+            }
+
+            .nav .nav-link.active {
+                color: #fff;
+                background-color: #0000004d!important;
+            }
+
+            .tab-content {
+                flex: 1;
+                overflow: auto;
+                padding: 8px;
+            }
+        }
+    }
+}

@@ -1,0 +1,18 @@
+.select-cid-video {
+    display: flex;
+    margin-bottom: 25px;
+
+    a {
+        height: 22px;
+        line-height: 19px;
+        padding: 2px 17px 1px;
+        cursor: pointer;
+        color: #ffffffb3;
+        white-space: nowrap;
+    }
+
+    a.active {
+        color: #fff;
+        background-color: #fc748c;
+    }
+}

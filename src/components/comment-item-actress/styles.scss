@@ -1,0 +1,30 @@
+.comment-item-actress {
+
+    &-author {
+        margin-left: 21px;
+    }
+
+    &-content {
+        margin-left: 70px;
+        .comment-time {
+            margin-top: -17px;
+        }
+    }
+
+    .action-like-comment {
+        margin-right: 60px;
+    }
+
+    .wrap-block {
+        position: absolute;
+        top: 23px;
+        right: 5px;
+        border: 1px solid #6663;
+        border-bottom: none;
+        display: flex;
+        flex-direction: column;
+        span {
+            border-bottom: 1px solid #6663;
+        }
+    }
+}

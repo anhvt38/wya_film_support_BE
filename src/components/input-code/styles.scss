@@ -1,0 +1,82 @@
+.input-code {
+    .wrap-input {
+
+        display: flex;
+        gap: 8px;
+        align-items: center;
+        position: relative;
+        justify-content: space-between;
+
+        &:has(input:focus) {
+            border-color: #ffffff99;
+        }
+
+        input {
+            background: transparent;
+            border: none;
+            color: #fff;
+            padding: 0;
+            caret-color: #ffffff99;
+            padding: 0 10px;
+            line-height: 48px;
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 8px;
+            &::placeholder {
+                color: #ffffff33;
+            }
+        }
+
+        input:focus {
+            border-color: #ffffff99;
+        }
+
+        input:disabled {
+            cursor: no-drop;
+        }
+
+        &+div {
+            color: #ffffff66;
+        }
+    }
+
+    .btn-send-code {
+        width: max-content;
+        min-width: 88px;
+        text-align: center;
+        padding: 0 13px;
+        color: #00c0ff;
+        font-size: 16px;
+        border: 1px solid rgba(0, 192, 255, 0.6);
+        background-color: transparent;
+        line-height: 48px;
+        border-radius: 8px;
+        &:hover {
+            border: 1px solid rgba(0, 192, 255, 1);
+        }
+
+        &:disabled {
+            color: #7a7a7a;
+            border-color: #7a7a7a;
+        }
+    }
+
+    .btn-next-code {
+        padding: .85em 1em;
+        border: 1px solid transparent;
+        border-radius: 8px;
+        transition: background-color .25s ease-out, color .25s ease-out;
+        font-size: 16px;
+        line-height: 1;
+        text-align: center;
+        cursor: pointer;
+        background: linear-gradient(315deg, #00E0FF 0%, #00B8FF 100%);
+        color: #fff;
+        width: 100%;
+
+    }
+
+    &-bottom {
+        color: #ffffff99;
+    }
+
+}

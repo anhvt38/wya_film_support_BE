@@ -1,0 +1,36 @@
+.search-video-item {
+    display: flex;
+    gap: 20px;
+
+    &>a {
+        width: 182px;
+        height: 102px;
+        position: relative;
+
+        img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        div {
+            background: linear-gradient(180deg, #0000, #00000080 38%, #000000e6);
+            left: 0;
+            height: 30px;
+            width: 100%;
+            position: absolute;
+            bottom: 4px;
+            display: flex;
+            align-items: flex-end;
+            justify-content: flex-end;
+            color: #fff;
+        }
+    }
+
+    &-right {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
+}

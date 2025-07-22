@@ -1,0 +1,177 @@
+.actress-album-detail {
+    position: fixed;
+    width: 100%;
+    height: 100vh;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    display: flex;
+}
+
+.actress-detail-left {
+    background-color: rgba(0, 0, 0, 0.8);
+    width: calc(100% - 467px - 145px);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+
+    .close-actress-album {
+        position: absolute;
+        cursor: pointer;
+        right: 20px;
+        top: 20px;
+        z-index: 1200;
+        &:hover {
+            color: #fff;
+        }
+    }
+
+    .wrap-big-image {
+        width: calc(100% - 80px) !important;
+        overflow: hidden;
+        margin-left: 50%;
+        transform: translateX(-50%);
+
+        &:focus-visible {
+            outline: none;
+        }
+    }
+
+    .big-main-image {
+        height: calc(95vh - 10vh - 75px);
+        width: auto;
+        margin: 0 auto;
+        object-fit: cover;
+        max-width: 100%;
+    }
+
+    .thumbs {
+        width: max-content;
+        margin-left: 50%;
+        transform: translateX(-50%);
+        position: relative;
+    }
+
+}
+
+.actress-detail-center {
+    background-color: #171717;
+    width: 467px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+
+    &>div:nth-child(2) {
+        padding-bottom: 300px !important;
+    }
+
+    hr {
+        height: 2px;
+        background-color: #6666;
+    }
+
+    .wrap-box-comment-actress {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        border-top: 1px solid #6666;
+        padding: 12px 12px 4px;
+        z-index: 1000;
+        background-color: #171717;
+
+        .box-comment-actress {
+            margin: 0;
+            padding: 0;
+            textarea {
+                background-color: #6663;
+                height: 48px;
+                border: none;
+            }
+        }
+    }
+
+    .login-to-comment {
+        background-color: #000000b3;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        padding: 35px 0 18px;
+        border-top: 1px solid #6666;
+        p {
+            color: #ffffffb3;
+            text-align: center;
+        }
+
+        button {
+            margin-top: 5px;
+            padding: 6px 8px;
+            min-width: 80px;
+            background-color: #fc748c;
+            color: #fff;
+            cursor: pointer;
+            transition: all .2s linear;
+        border-radius: 0;
+
+            &:hover {
+                background-color: #ec4871;
+            }
+        }
+    }
+
+        .comment-tabs-actress {
+        .nav-link.active {
+            color: #fc748c !important;
+        }
+    }
+}
+
+.actress-detail-right {
+    width: 145px;
+
+    h3 {
+        padding: 25px 20px;
+        color: #fff;
+
+        &+div {
+            padding: 0 10px 0 20px;
+            height: calc(100vh - 70px);
+        }
+    }
+
+    .list-group {
+        overflow-y: auto;
+        overflow-x: hidden;
+        height: 100%;
+    }
+
+    .image-total-badge {
+        bottom: 5px;
+        left: 5px;
+        padding: 2px 5px;
+        background-color: #00000080 !important;
+        border-radius: 2px !important;
+    }
+
+    hr {
+        background-color: #6666;
+        height: 2px;
+        margin: 7px 0 14px;
+    }
+
+    .thumb-trend {
+        cursor: pointer;
+        object-fit: cover;
+        transition: 0.1s;
+
+        &:hover {
+            transform: scale(1.05);
+        }
+    }
+}

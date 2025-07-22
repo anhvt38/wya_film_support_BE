@@ -1,0 +1,201 @@
+@import "../../app/variables.scss";
+
+.wrapper-video {
+    position: relative;
+    width: 100%;
+    height: 630px;
+overflow: hidden;
+    .video-screen-outermost {
+        overflow: hidden;
+        height: 100%;
+    }
+
+    .wrap-video-screen {
+        height: 100%;
+        margin: 0 auto;
+    }
+
+    .video-option {
+        position: absolute;
+        width: 100%;
+        padding: 0 10px;
+    }
+
+    .wrap-progress-video {
+        position: absolute;
+        left: 0;
+        right: 0;
+        margin: 0 10px;
+    }
+
+    .wrap-progress-video>div {
+        position: relative;
+        width: 100%;
+        height: 2px;
+    }
+
+    .buffered-bar {
+        padding: 0 10px;
+        background-color: rgba(255, 255, 255, 0.3);
+        height: 100%;
+        position: absolute;
+        top: 0;
+        left: 0;
+        z-index: 10;
+
+    }
+
+    .wrap-progress-video {
+        bottom: 62px;
+        background-color: #74747494;
+        cursor: pointer;
+
+        &:hover {
+            &>div {
+                height: 6px;
+            }
+
+            .progress-dot {
+                width: 16px;
+                height: 16px;
+                border: 3px solid $pinkText;
+                top: -4px;
+
+            }
+        }
+
+        .progress-bar {
+            background-color: #fc748c;
+            height: 100%;
+            position: absolute;
+            top: 0;
+            left: 0;
+            z-index: 30
+        }
+
+        .progress-dot {
+
+            background: #fff;
+            border: 5px solid $pinkText;
+            width: 10px;
+            height: 10px;
+            border-radius: 50%;
+            position: absolute;
+            top: -3px;
+            z-index: 50;
+            cursor: pointer;
+        }
+    }
+
+    .video-option {
+        padding: 15px 15px;
+        bottom: 0;
+        display: flex;
+        justify-content: space-between;
+        background: linear-gradient(180deg, #0000, #000);
+
+        .btn-play-video {
+            font-size: 45px;
+            cursor: pointer;
+        }
+    }
+
+    .option-common-dropdown {
+        position: absolute;
+        z-index: 501;
+        background-color: #3a3a3a;
+        left: 50%;
+        bottom: 44px;
+        transform: translateX(-50%);
+    }
+
+    .wrap-option-dropdown {
+        position: relative;
+
+        &:after {
+            content: "";
+            position: absolute;
+            bottom: -6px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 0;
+            border-left: 6px solid transparent;
+            border-right: 6px solid transparent;
+            border-top: 6px solid #3a3a3a;
+        }
+    }
+
+}
+
+.video-option {
+    display: flex;
+    gap: 10px;
+}
+
+.wrap-collections {
+    position: absolute;
+    top: 0;
+    right: -100%;
+    width: 348px;
+    background-color: #0000008f;
+    padding-top: 1em;
+    -webkit-backdrop-filter: blur(16px);
+    backdrop-filter: blur(16px);
+    z-index: 1000;
+    height: 100%;
+    transition: 0.4s;
+}
+
+.collections {
+    position: relative;
+    height: 100%;
+
+    &-content {
+        padding: 0 28px 15px;
+        display: flex;
+        gap: 7px;
+        &>div {
+            background-color: #00000080 !important;
+            height: 50px;
+            line-height: 42px;
+            padding: 3px !important;
+            width: 54px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            cursor: pointer;
+            &:hover {
+                span {
+                    color: #fc748c !important;
+                }
+            }
+            img {
+                position: absolute;
+                bottom: 5px;
+                left: 0px;
+            }
+        }
+    }
+
+    &-trigger {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        position: absolute;
+        top: 50%;
+        left: 0;
+        transform: translateY(-50%);
+        cursor: pointer;
+
+        svg {
+            font-size: 22px;
+            color: #ececeeb3;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+        }
+    }
+}

@@ -1,0 +1,24 @@
+.option-common-dropdown {
+    position: absolute;
+    z-index: 501;
+    background-color: #3a3a3a;
+    left: 50%;
+    bottom: 33px;
+    transform: translateX(-50%);
+}
+
+.wrap-option-dropdown {
+    position: relative;
+    &:after {
+        content: "";
+        position: absolute;
+        bottom: -6px;
+        left: 50%;
+        transform: translateX(-50%);
+        width: 0;
+        height: 0;
+        border-left: 6px solid transparent;
+        border-right: 6px solid transparent;
+        border-top: 6px solid #3a3a3a;
+    }
+}

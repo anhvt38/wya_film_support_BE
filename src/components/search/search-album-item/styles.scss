@@ -1,0 +1,33 @@
+.search-album-item {
+    display: flex;
+    gap: 20px;
+
+    &-top {
+        position: relative;
+        h4 {
+            font-size: 20px;
+        }
+        
+        img {
+            width: 218px;
+            height: 218px;
+            object-fit: cover;
+        }
+
+        .image-total-badge {
+            position: absolute;
+            z-index: 2;
+            min-width: 40px;
+            height: 20px;
+            padding: 0 4px;
+            left: 6px;
+            bottom: 6px;
+            background: #000000a8;
+            display: flex;
+            align-items: center;
+            justify-content: space-around;
+            font-size: 12px;
+            color: #fff;
+        }
+    }
+}
