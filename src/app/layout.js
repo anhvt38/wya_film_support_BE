@@ -10,7 +10,7 @@ const inter = Inter({ subsets: ['latin'] })
 
 export default function RootLayout({ children }) {
   return (
-    <html lang="vi">
+    <html>
       <head>
         {/* <link rel="icon" type="image/png" href="/favicon-96x96.png" sizes="96x96" />
 <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
@@ -22,30 +22,6 @@ export default function RootLayout({ children }) {
       </head>
       <body className={`${inter.className}`} suppressHydrationWarning={true}>
         {children}
-        {/* <Script id="chatwoot-live-chat" strategy="afterInteractive">
-            {`
-              (function(d,t) {
-                var BASE_URL = "https://7eec7d18410c.ngrok-free.app";
-                var g = d.createElement(t), s = d.getElementsByTagName(t)[0];
-                g.src = BASE_URL + "/packs/js/sdk.js";
-                g.defer = true;
-                g.async = true;
-                s.parentNode.insertBefore(g,s);
-                // debugger;
-                g.onload = function() {
-                  try {
-                    console.log('Chatwoot SDK loaded', window.chatwootSDK);
-                    window.chatwootSDK.run({
-                      websiteToken: 'dCd1eTrMyTnrHwx6UzXgNAAy',
-                      baseUrl: BASE_URL
-                    });
-                  } catch (error) {
-                    console.error('Chatwoot SDK error:', error);
-                  }
-                }
-              })(document, "script");
-            `}
-            </Script> */}
       </body>
     </html>
   )

@@ -15,8 +15,7 @@ import { useRouter } from "next/navigation";
 
 export const NewVideoItem = (props) => {
     const { item, children } = props || {};
-    const { key, title, image, views, view, avatar, link, playurl, nickName, lastseconds, add_Date } = item || {};
-
+    const { key, title, image, views, view, avatar, link, playurl, nickName, lastseconds, add_Date, userKey } = item || {};
     const videoRef = useRef(null);
     const hlsRef = useRef(null);
     const isHoveringRef = useRef(false);
@@ -89,8 +88,8 @@ const router = useRouter();
                                 height={245}
                                 sizes="100vw"
                                 className="w-full video-item-thumbnail"
-                                // onMouseEnter={handleMouseEnter}
-                                // onMouseLeave={handleMouseLeave}
+                                onMouseEnter={handleMouseEnter}
+                                onMouseLeave={handleMouseLeave}
                             />
                             : <video
                                 ref={videoRef}
@@ -98,8 +97,8 @@ const router = useRouter();
                                 controls={false}
                                 preload="none"
                                 className=''
-                                // onMouseEnter={handleMouseEnter}
-                                // onMouseLeave={handleMouseLeave}
+                                onMouseEnter={handleMouseEnter}
+                                onMouseLeave={handleMouseLeave}
                             />
                     }
 
@@ -116,12 +115,15 @@ const router = useRouter();
                 </div>
             </Link>
             <div>
-                <Link href="/" className="px-2 my-2 truncate-one-line text-pink-hover fs-5">{title}</Link>
+                <Link href={`${routes.watch}?v=${key}`} className="px-2 my-2 truncate-one-line text-pink-hover fs-5">{title}</Link>
                 <div className="p-2 d-flex justify-content-between">
-                    <div className="d-flex gap-2 align-items-center">
-                        <Image alt='avatar' src={ensureHttps(avatar)} width={20} height={20} className="rounded-full overflow-hidden " />
-                        <Link title={nickName} href="/" className="text-pink-hover fs-6">{nickName}</Link>
-                    </div>
+                    <Link title={nickName} href={`${routes.space}/${userKey}`} className="text-pink-hover">
+                        <div className="d-flex gap-2 align-items-center">
+                            <Image alt='avatar' src={ensureHttps(avatar)} width={20} height={20} className="rounded-full overflow-hidden " />
+                            <span className=" fs-6">{nickName}</span>
+                        </div>
+                    </Link>
+                    
                     <span className="fs-6">{add_Date}</span>
                 </div>
             </div>

@@ -33,11 +33,7 @@ import dayjs from "dayjs";
 export const VideoMoreDetail = (props) => {
     const { id, item, videoDetail } = props || {};
     const { title, view, addTime, tags } = videoDetail || {};
-
     const [isShowIntroduce, setIsShowIntroduce] = useState(false);
-
-
-
 
     return (
         <div className="video-more-detail">

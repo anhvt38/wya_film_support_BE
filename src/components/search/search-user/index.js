@@ -19,7 +19,7 @@ import { useParams } from "next/navigation";
 import qs from 'qs';
 
 export default function SearchUser({ watchRoute = true, paramId }) {
-    const { partSearchTotal, setPartSearchTotal, setSearchDataTotal } = useContext(MainContext);
+    const { publicKey, privateKey, partSearchTotal, setPartSearchTotal, setSearchDataTotal } = useContext(MainContext);
     const params = useParams();
     const decodeKeyword = decodeURIComponent(params.keyword);
 
@@ -32,16 +32,18 @@ export default function SearchUser({ watchRoute = true, paramId }) {
     })
 
     const [searchUserBody, setSearchUserBody] = useState({
-        tags: "兄弟的清纯女友 被我迷晕后干到高潮",
-        vv: "7cc1029998205b229078ca51b67d6aa0",
-        pub: "CJSrCZ0qDZGrEIuuEJGnCbyh9ozCZGmCZeuC30wDZ8mPJfXOp4wCsCoEJeqCM4tEZ8nOcOwDpGrCLyn6xAniHYn7B6RcJ8Q69amd1en6ngSifWOifWn63AS72zD69cOM4rD6DaP3CrCp5YPZKpDsPZDZPZP3TcDpKsOM6"
     })
 
     const { data: searchUserDatas } = useQuery({
-        queryKey: ["search-user"],
+        queryKey: ["search-user", publicKey, privateKey],
         queryFn: async () => {
             const query = qs.stringify(searchUserParams);
-            const formBody = new URLSearchParams(searchUserBody).toString();
+            const formBody = new URLSearchParams({
+                ...searchUserBody,
+                tags: decodeKeyword,
+                vv: privateKey,
+                pub: publicKey
+            }).toString();
             const data = await fetch(`${process.env.HOST_API_RANKV21}/v3/list/searchUser?${query}`, {
                 method: "POST",
                 body: formBody,
@@ -52,6 +54,7 @@ export default function SearchUser({ watchRoute = true, paramId }) {
 
             return await data.json();
         },
+        enabled: !!publicKey && !!privateKey
     });
 
     const { data: searchUsers } = searchUserDatas || {};

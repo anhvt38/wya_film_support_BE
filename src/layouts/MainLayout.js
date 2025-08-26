@@ -15,6 +15,11 @@ import LoginNotiModal from "@/components/login-noti-modal";
 import MainNoti from "@/components/main-noti";
 import DiscoveryListModal from "@/components/discovery-list-modal";
 import UploadFileModal from "@/components/upload-file-modal";
+import UpgradetoVIPModal from "@/components/upgrade-to-VIP-modal";
+import NotifiUpgradeVipModal from "@/components/notifi-upgrade-vip-modal";
+import ResetPasswordModal from "@/components/reset-password-modal";
+import { set } from "date-fns";
+import ModifyInfoUserModal from "@/components/modify-info-user-modal";
 
 export const MainContext = createContext({
 
@@ -38,6 +43,18 @@ export const MainContext = createContext({
     setIsOpenFollowedLocalModal: () => { },
     isOpenUploadFileModal: false,
     setIsOpenUploadFileModal: () => { },
+    isOpenUpgradetoVIPModal: false,
+    setIsOpenUpgradetoVIPModal: () => { },
+    isOpenNotifiUpgradeVipModal: false,
+    setIsOpenNotifiUpgradeVipModal: () => { },
+    isOpenResetPasswordModal: false,
+    setIsOpenResetPasswordModal: () => { },
+    privateKey: "",
+    setPrivateKey: () => { },
+    publicKey: "",
+    setPublicKey: () => { },
+    isOpenModifyInfoUserModal: false,
+    setIsOpenModifyInfoUserModal: () => { },
 })
 
 
@@ -60,6 +77,12 @@ export default function MainLayout({ children }) {
     const [partSearchTotal, setPartSearchTotal] = useState({});
     const [isOpenFollowedLocalModal, setIsOpenFollowedLocalModal] = useState(false);
     const [isOpenUploadFileModal, setIsOpenUploadFileModal] = useState(false);
+    const [isOpenUpgradetoVIPModal, setIsOpenUpgradetoVIPModal] = useState(false);
+    const [isOpenNotifiUpgradeVipModal, setIsOpenNotifiUpgradeVipModal] = useState(false);
+    const [isOpenResetPasswordModal, setIsOpenResetPasswordModal] = useState(false);
+    const [privateKey, setPrivateKey] = useState('');
+    const [publicKey, setPublicKey] = useState('');
+    const [isOpenModifyInfoUserModal, setIsOpenModifyInfoUserModal] = useState(false);
 
     const ref = useRef(null)
     const [height, setHeight] = useState(0)
@@ -95,6 +118,18 @@ export default function MainLayout({ children }) {
             setIsOpenFollowedLocalModal,
             isOpenUploadFileModal,
             setIsOpenUploadFileModal,
+            isOpenUpgradetoVIPModal,
+            setIsOpenUpgradetoVIPModal,
+            isOpenNotifiUpgradeVipModal,
+            setIsOpenNotifiUpgradeVipModal,
+            isOpenResetPasswordModal,
+            setIsOpenResetPasswordModal,
+            privateKey,
+            setPrivateKey,
+            publicKey,
+            setPublicKey,
+            isOpenModifyInfoUserModal,
+            setIsOpenModifyInfoUserModal
         }),
         [
             conversationId,
@@ -112,7 +147,14 @@ export default function MainLayout({ children }) {
             searchDataTotal,
             partSearchTotal,
             isOpenFollowedLocalModal,
-            isOpenUploadFileModal
+            isOpenUploadFileModal,
+            isOpenUpgradetoVIPModal,
+            isOpenNotifiUpgradeVipModal,
+            isOpenResetPasswordModal,
+            privateKey,
+            publicKey,
+            isOpenResetPasswordModal,
+            isOpenModifyInfoUserModal
         ]
     );
 
@@ -141,7 +183,7 @@ export default function MainLayout({ children }) {
 
     return (
         <MainContext.Provider value={value}>
-            {useMemo(() => (
+            {/* {useMemo(() => ( */}
                 <SessionProvider >
                     <div>
                         <Providers>
@@ -197,6 +239,26 @@ export default function MainLayout({ children }) {
                                         action={mainNoti.action}
                                     />
 
+                                    <UpgradetoVIPModal
+                                        isOpen={isOpenUpgradetoVIPModal}
+                                        onClose={() => setIsOpenUpgradetoVIPModal(false)}
+                                    />
+
+                                    <NotifiUpgradeVipModal
+                                        isOpen={isOpenNotifiUpgradeVipModal}
+                                        onClose={() => setIsOpenNotifiUpgradeVipModal(false)}
+                                    />
+
+                                    {/* <ResetPasswordModal
+                                        isOpen={isOpenResetPasswordModal}
+                                        onClose={() => setIsOpenResetPasswordModal(false)}
+                                    />
+
+                                    <ModifyInfoUserModal
+                                        isOpen={isOpenModifyInfoUserModal}
+                                        onClose={() => setIsOpenModifyInfoUserModal(false)}
+                                    /> */}
+
                                 </CCol>
                             </CContainer>
                         </Providers>
@@ -216,7 +278,7 @@ export default function MainLayout({ children }) {
                     <BottomRightToolbar />
 
                 </SessionProvider>
-            ), [toast, confirmModal, height, isShowLoading, isOpenAuthModal, loginNotiModal, mainNoti, searchDataTotal, partSearchTotal, isOpenFollowedLocalModal, isOpenUploadFileModal])}
+            {/* ), [toast, confirmModal, height, isShowLoading, isOpenAuthModal, loginNotiModal, mainNoti, searchDataTotal, partSearchTotal, isOpenFollowedLocalModal, isOpenUploadFileModal, isOpenUpgradetoVIPModal, isOpenNotifiUpgradeVipModal, isOpenResetPasswordModal, privateKey, publicKey, isOpenModifyInfoUserModal])} */}
         </MainContext.Provider>
 
     )

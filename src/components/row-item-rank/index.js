@@ -1,37 +1,56 @@
 "use client";
 
 import "./styles.scss";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import _ from "lodash-es";
 import { useQuery } from "react-query";
 import { getVideoRank } from "@/apis/homepage";
 import { FaFireFlameCurved } from "react-icons/fa6";
 import { routes } from "@/contants/routes";
-
+import qs from 'qs';
+import { MainContext } from "@/layouts/MainLayout";
+import { getConvertedQuery } from "@/utils/common";
 
 export const RowItemRank = (props) => {
   const { } = props;
+  const { publicKey, privateKey } = useContext(MainContext);
 
   const [activeTabJapan, setActiveTabJapan] = useState('week');
   const [activeTabEuro, setActiveTabEuro] = useState('week');
   const [activeTabDomestic, setActiveTabDomestic] = useState('week');
   const [activeTabCartoon, setActiveTabCartoon] = useState('week');
+  // const [videoRankDatas, setVideoRankDatas] = useState({ info: {} });
+    const [hasFetchedVideoRank, setHasFetchedVideoRank] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
 
   const [params, setParams] = useState({
     key: "All",
     cinema: 2,
-    vv: "4cc77e7ec7bde2aa6cfdc6f7505472db",
-    pub: 1751334683857
+    // vv: "4cc77e7ec7bde2aa6cfdc6f7505472db",
+    // pub: 1751334683857
   });
 
   const { data: videoRankDatas, isLoading: firstIsLoading } = useQuery({
-    queryKey: ['get-list-video-rank', params],
+    queryKey: ['get-list-video-rank', params, publicKey, privateKey],
     queryFn: () => {
-      return getVideoRank(params)
+      let paramsSignQuery = getConvertedQuery(params);
+
+      return getVideoRank(paramsSignQuery);
     },
     enabled: !!params
   })
+
+  // useEffect(() => {
+  //   if (hasFetchedVideoRank) return
+  //   setIsLoading(true)
+  //   let paramsSignQuery = getConvertedQuery(params);
+  //   getVideoRank(paramsSignQuery).then(({ data }) => {
+  //       setVideoRankDatas(data)
+  //       setHasFetchedVideoRank(true);
+  //       setIsLoading(false)
+  //   })
+  // }, [params])
 
   const videoJapanDatas = videoRankDatas?.data?.info['true_0,2,10,85'] || {};
   const videoEuropeanDatas = videoRankDatas?.data?.info['true_0,2,10,86'] || {};

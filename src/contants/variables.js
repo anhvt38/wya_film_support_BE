@@ -50,4 +50,28 @@ export const DEFAULT_CID = {
    europeCid: `0,2,10,86`,
    cartoonCid: `0,2,10,88`,
    domesticCid: `0,2,10,87`,
+   gay: `gay`,
 }
+
+export const PRIVATES = [
+  "version001", "vers1on001", "vers1on00i", "bersion001", "vcrsion001", "versi0n001", "versio_001", "version0o1"
+]
+
+export const POPULAR_TRENDS = [
+  {
+    showtype: 0,
+    label: "周"
+  },
+  {
+    showtype: 1,
+    label: "月"
+  },
+  {
+    showtype: 2,
+    label: "年"
+  },
+  {
+    showtype: 3,
+    label: "全部"
+  },
+]

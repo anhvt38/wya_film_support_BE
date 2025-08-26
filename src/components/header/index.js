@@ -16,21 +16,49 @@ import { UploadVideo } from "../upload-video";
 import { Watched } from "../watched";
 import Image from "next/image";
 import { HeaderLogin } from "../header-login";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { BiSolidBarChartAlt2 } from "react-icons/bi";
 import { routes } from "@/contants/routes";
+import { Notifications } from "../notifications";
+import { getHomeConfig } from "@/apis/homepage";
+import { useQuery } from "react-query";
+import { MainContext } from "@/layouts/MainLayout";
 
 
 export default function Header({ role }) {
+    const { setPrivateKey, setPublicKey } = useContext(MainContext);
+  
   const [isHoverNavigation, setIsHoverNavigation] = useState(false);
   const [isHoverUpgradeVip, setIsHoverUpgradeVip] = useState(false);
   const [isHoverUploadVideo, setIsHoverUploadVideo] = useState(false);
   const [isHoverWatched, setIsHoverWatched] = useState(false);
   const [isHoverNotification, setIsHoverNotification] = useState(false);
   const [isHoverHeaderLogin, setIsHoverHeaderLogin] = useState(false);
+  const [language, setLanguage] = useState(null);
+  const [isFocusSearchInput, setIsFocusSearchInput] = useState(false);
 
-      const [language, setLanguage] = useState(null);
 
+  const [params, setParams] = useState({
+        cinema: 2,
+        // vv: "edf93139f673be5f277daf5c503e9253",
+        // pub: "1754466247302"
+    })
+
+  const { data: homeConfigData, isLoading }
+          = useQuery({
+              queryKey: ['home-config'],
+              queryFn: () => {
+                  return getHomeConfig({
+                      ...params
+                  })
+              },
+              onSuccess: ({data}) => {
+                const key = data.info[0].pConfig.privateKey[0];
+                const pubKey = data.info[0].pConfig.publicKey;
+                setPrivateKey(key);
+                setPublicKey(pubKey);
+              }
+          })
 
   const onHoverBtnLogin = () => {
     const header = document.querySelector('#header');
@@ -43,14 +71,14 @@ export default function Header({ role }) {
 
     header.style.zIndex = '390';
     if (popover) {
-    popover.style.zIndex = '380';
+      popover.style.zIndex = '380';
     }
 
   }
 
-      useEffect(() => {
-          setLanguage(JSON.parse(localStorage.getItem('lang')))
-      }, [])
+  useEffect(() => {
+    setLanguage(JSON.parse(localStorage.getItem('lang')))
+  }, [])
 
   return (
     <CRow id="header" className="py-3 container m-auto px-0 position-sticky">
@@ -83,7 +111,7 @@ export default function Header({ role }) {
 
           <div className="position-relative ms-3">
             <Link className="text-pink-hover fs-5" href={routes.livestreamList}>
-            直播
+              直播
             </Link>
             <CBadge className="position-absolute bg-pink bottom-50 fw-normal px-2 py-1 fs-6">新</CBadge>
 
@@ -94,6 +122,10 @@ export default function Header({ role }) {
       <CCol md={4} className="d-flex align-items-center">
         <div className="position-relative header-search d-flex align-items-center gap-4">
           <input
+          onClick={() => setIsFocusSearchInput(true)}
+          onBlur={() => setTimeout(() => {
+              setIsFocusSearchInput(false)
+          }, 200)}
             type='text'
             placeholder="少妇白洁3"
             className="border-0 fs-6 w-full h-full bg-transparent text-white"
@@ -104,13 +136,16 @@ export default function Header({ role }) {
               <BiSolidBarChartAlt2 className="wrap-search-icon" />
             </Link>
 
-            <FaSearch className="wrap-search-icon cursor-pointer"  />
+            <FaSearch className="wrap-search-icon cursor-pointer" />
 
           </div>
 
+          {
+            isFocusSearchInput &&
           <div className="position-absolute wrap-popular-search">
-            <PopularSearch />
-          </div>
+              <PopularSearch />
+            </div>
+          }
         </div>
       </CCol>
 
@@ -148,8 +183,8 @@ export default function Header({ role }) {
           </CommonPopover>
 
 
-          <CommonPopover 
-          // content={<NavigationPopover />}
+          <CommonPopover
+            content={<Notifications />}
             onHover={(isHover) => setIsHoverNotification(isHover)}
 
           >
@@ -164,11 +199,11 @@ export default function Header({ role }) {
             onHover={(isHover) => setIsHoverHeaderLogin(isHover)}
 
           >
-            <div className="d-flex gap-2 align-items-center cursor-pointer header-login-btn" 
-            onMouseMove={onHoverBtnLogin}
-            onMouseLeave={onLeaveBtnLogin}
+            <div className="d-flex gap-2 align-items-center cursor-pointer header-login-btn"
+              onMouseMove={onHoverBtnLogin}
+              onMouseLeave={onLeaveBtnLogin}
             >
-              <Image alt='avatar' src="/logon.png" width={30} height={30}  className={isHoverHeaderLogin ? "hovered" : ""} />
+              <Image alt='avatar' src="/logon.png" width={30} height={30} className={isHoverHeaderLogin ? "hovered" : ""} />
               <span className={`whitespace-nowrap text-white ${isHoverHeaderLogin ? "hovered" : ""}`}>登录</span>
             </div>
           </CommonPopover>

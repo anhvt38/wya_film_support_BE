@@ -21,6 +21,7 @@ export default function SelectCidVideo(props) {
 
             {
                 _.map(datas, (item, index) => {
+                    delete paramsObject.tag;
                     const link = pushParamToURl(paramsObject, item.linkObj)
                     const { cid = '' } = paramsObject || {};
                     return (

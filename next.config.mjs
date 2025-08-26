@@ -22,13 +22,15 @@ const nextConfig = {
         HOST_LINK_STATIC: process.env.HOST_LINK_STATIC,
         HOST_API_PREVIEW_VIDEO: process.env.HOST_API_PREVIEW_VIDEO,
         HOST_API_ACCOUNT_ANYGATE: process.env.HOST_API_ACCOUNT_ANYGATE,
+        HOST_API_WA_ANYGATE: process.env.HOST_API_WA_ANYGATE,
         HOST_API_ADC: process.env.HOST_API_ADC,
+        HOST_API_ANYGATE_VIP: process.env.HOST_API_ANYGATE_VIP
     },
     images: {
         remotePatterns: [
         {
             protocol: 'http',
-            hostname: '192.168.1.3',
+            hostname: '192.168.48.1',
             port: '1337',
             pathname: '/**',
         },
@@ -50,6 +52,19 @@ const nextConfig = {
             port: '',
             pathname: '/**',
         },
+        {
+            protocol: 'https',
+            hostname: 'wya-film.vercel.app',
+            port: '',
+            pathname: '/**',
+        },
+        {
+            protocol: 'https',
+            hostname: 'api.anygate.vip',
+            port: '',
+            pathname: '/**',
+        },
+        
         ],
      },
     swcMinify: false,

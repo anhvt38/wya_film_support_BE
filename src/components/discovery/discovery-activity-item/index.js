@@ -9,14 +9,16 @@ import { BiMessageDots } from "react-icons/bi";
 import { AiFillLike } from "react-icons/ai";
 import { FaRegStar } from "react-icons/fa";
 import { MainContext } from "@/layouts/MainLayout";
+import { ActressAlbumDetail } from "@/components/actress-album-detail";
 
 export default function DiscoveryActivityItem(props) {
     const { item } = props || {};
     const { setIsOpenAuthModal } = useContext(MainContext);
-    const { viewCount, comments, favoriteCount, dd, dateStr, headImg, nickName, description, label, photoAlbumDetailsList } = item;
+    const [detail, setDetail] = useState(null);
+    const { viewCount, comments, favoriteCount, dd, dateStr, headImg, nickName, description, label, photoAlbumDetailsList, photoCount } = item;
     const arrlabel = label.split(",");
-    const photoAlbumDetailsListShow = photoAlbumDetailsList.slice(0, 4);
-    const totalImageNotShow = photoAlbumDetailsList.length - 4;
+    const photoAlbumDetailsListShow = photoAlbumDetailsList.slice(0, 5);
+    let totalImageNotShow = photoCount - 5;
     return (
         <div className="discovery-activity-item mb-5">
             <div className="discovery-activity-item-top">
@@ -40,7 +42,7 @@ export default function DiscoveryActivityItem(props) {
 
             <div className="discovery-activity-item-content">
                 <p className="mt-3 text-pink fs-5">
-                    <span className="text-white">{description}</span>
+                    <span className="text-white" dangerouslySetInnerHTML={{ __html: description }}></span>
                 </p>
                 <div className="activity-item-tags-discovery">
                     {_.map(arrlabel, (itemLabel, index) => {
@@ -51,34 +53,61 @@ export default function DiscoveryActivityItem(props) {
                     }
                 </div>
 
-                <div className="activity-item-images-discovery">
-                    {_.map(photoAlbumDetailsListShow, (itemLabel, index) => {
-                        if (index < 3) {
-                            return (
-                                <Link href="/" className="">
-                                    <Image alt='thumbnail' src={itemLabel.imgPath} width={0} height={0} sizes="100vw" />
-                                </Link>
-                            )
+                <div>
+                    <div className="activity-item-images-discovery">
+                        {_.map(photoAlbumDetailsListShow, (itemLabel, index) => {
+
+                            if (index < 4) {
+                                return (
+                                    // <Link href="/" className="">
+                                    //     <Image alt='thumbnail' src={itemLabel.imgPath} width={0} height={0} sizes="100vw" />
+                                    // </Link>
+                                    <div className="masonry-item discovery-masonry-item" onClick={() => setDetail(itemLabel)} key={index}>
+                                        <app-discovery-meta>
+                                            <div className="meta-cover-container no-height-limit">
+                                                <div className="cover-link">
+                                                    <img src={itemLabel.imgPath} className="loaded discovery-item-thumbnail discovery-item-img-on-list-page"></img>
+                                                </div>
+                                            </div>
+                                        </app-discovery-meta>
+                                    </div>
+                                )
+                            }
+                            if (index = 4) {
+                                return (
+                                    // <Link href="/" className="">
+                                    //     <Image alt='thumbnail' src={itemLabel.imgPath} width={0} height={0} sizes="100vw" />
+                                    //     {
+                                    //         (totalImageNotShow > 0) &&
+                                    //         <div className="activity-item-overlay">
+                                    //             +{totalImageNotShow}
+                                    //         </div>
+                                    //     }
+
+                                    // </Link>
+                                    <div className="masonry-item discovery-masonry-item" onClick={() => setDetail(itemLabel)} key={index}>
+                                        <app-discovery-meta>
+                                            <div className="meta-cover-container no-height-limit">
+                                                <div className="cover-link">
+                                                    <img src={itemLabel.imgPath} className="loaded discovery-item-thumbnail discovery-item-img-on-list-page"></img>
+                                                    {
+                                                        (totalImageNotShow > 0) &&
+                                                        <div className="activity-item-overlay">
+                                                            +{totalImageNotShow}
+                                                        </div>
+                                                    }
+
+                                                </div>
+                                            </div>
+                                        </app-discovery-meta>
+                                    </div>
+                                )
+                            }
+
+
+                        })
                         }
-                        if (index = 3) {
-                            return (
-                                <Link href="/" className="">
-                                    <Image alt='thumbnail' src={itemLabel.imgPath} width={0} height={0} sizes="100vw" />
-                                    {
-                                        (totalImageNotShow > 0) &&
-                                        <div className="activity-item-overlay">
-                                            +{totalImageNotShow}
-                                        </div>
-                                    }
-
-                                </Link>
-                            )
-                        }
-
-
-                    })
-                    }
-                    {/* <Link href="/" className="">
+                        {/* <Link href="/" className="">
                         <Image alt='thumbnail' src="/bg-qr-download.png" width={0} height={0} sizes="100vw" />
                     </Link>
                     <Link href="/" className="">
@@ -96,6 +125,12 @@ export default function DiscoveryActivityItem(props) {
                             +4
                         </div>
                     </Link> */}
+                    </div>
+                    {
+                        detail &&
+                        <ActressAlbumDetail onClose={() => setDetail(null)} detail={detail} />
+
+                    }
                 </div>
 
                 <div className="d-flex gap-5">

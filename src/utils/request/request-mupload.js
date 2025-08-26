@@ -2,8 +2,6 @@ export async function apiRequestMupload(url, method = 'GET', data = null, custom
   // const HOST_API_MUPLOAD = process.env.HOST_API_MUPLOAD;
   const HOST_API_MUPLOAD = `https://mupload.wyav.tv`;
 
-  console.log('aaaaaaa ', HOST_API_MUPLOAD);
-
   const baseURL = `${HOST_API_MUPLOAD}${url}`;
 
   

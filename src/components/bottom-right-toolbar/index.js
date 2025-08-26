@@ -5,12 +5,14 @@ import Link from "next/link";
 import "./styles.scss";
 import { MdKeyboardDoubleArrowUp, MdOutlineContactSupport } from "react-icons/md";
 import { IoDiamondOutline, IoDownload, IoDownloadOutline, IoDownloadSharp } from "react-icons/io5";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { PiDeviceMobileSpeakerBold } from "react-icons/pi";
 import { routes } from "@/contants/routes";
 import { useRouter } from "next/navigation";
+import { MainContext } from "@/layouts/MainLayout";
 
 export const BottomRightToolbar = () => {
+    const { setIsOpenUpgradetoVIPModal } = useContext(MainContext);
     const router = useRouter();
 
     const [visible, setVisible] = useState(false);
@@ -65,7 +67,7 @@ export const BottomRightToolbar = () => {
                         </div>
                     </Link>
                 </div>
-                <div className="">
+                <div className="" onClick={() => setIsOpenUpgradetoVIPModal(true)}>
                     <span className="bg-pink">升级VIP</span>
                     <div className="wrap-icon">
                         <IoDiamondOutline className="fs-5" />

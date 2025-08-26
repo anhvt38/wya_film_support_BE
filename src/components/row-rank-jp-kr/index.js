@@ -1,7 +1,7 @@
 "use client";
 
 import "./styles.scss";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import _ from "lodash-es";
 import { useQuery } from "react-query";
 import { getVideoRank } from "@/apis/homepage";
@@ -9,25 +9,29 @@ import { FaFireFlameCurved } from "react-icons/fa6";
 import { routes } from "@/contants/routes";
 import { AiFillDislike, AiFillLike, AiOutlineComment } from "react-icons/ai";
 import { BiMessageDots } from "react-icons/bi";
+import { MainContext } from "@/layouts/MainLayout";
+import { getConvertedQuery } from "@/utils/common";
 
 
 export const RowRankJapanKorea18 = (props) => {
   const { cidValue } = props;
-
+  const { publicKey, privateKey } = useContext(MainContext);
   const [visibleCountJapan, setVisibleCountJapan] = useState(10);
 
 
   const [params, setParams] = useState({
     key: "All",
     cinema: 2,
-    vv: "59790f28b67c7bb970ff3331274fddd2",
-    pub: 1751352226849
+    // vv: "59790f28b67c7bb970ff3331274fddd2",
+    // pub: 1751352226849
   });
 
   const { data: videoRankDatas, isLoading: firstIsLoading } = useQuery({
-    queryKey: ['get-list-video-rank', params],
+    queryKey: ['get-list-video-rank', params, publicKey, privateKey],
     queryFn: () => {
-      return getVideoRank(params)
+      let paramsSignQuery = getConvertedQuery(params);
+
+      return getVideoRank(paramsSignQuery);
     },
     enabled: !!params
   })
@@ -36,16 +40,16 @@ export const RowRankJapanKorea18 = (props) => {
   let videoShowDatas = [];
   switch (cidValue) {
     case 'japankorea':
-      videoShowDatas = videoRankDatas?.data?.info['true_0,2,10,85'].day;
+      videoShowDatas = videoRankDatas?.data?.info['true_0,2,10,85'].week;
       break;
     case 'western':
-      videoShowDatas = videoRankDatas?.data?.info['true_0,2,10,86'].day;
+      videoShowDatas = videoRankDatas?.data?.info['true_0,2,10,86'].week;
       break;
     case 'china':
-      videoShowDatas = videoRankDatas?.data?.info['true_0,2,10,87'].day;
+      videoShowDatas = videoRankDatas?.data?.info['true_0,2,10,87'].week;
       break;
     case 'cartoon':
-      videoShowDatas = videoRankDatas?.data?.info['true_0,2,10,88'].day;
+      videoShowDatas = videoRankDatas?.data?.info['true_0,2,10,88'].week;
       break;
   }
 

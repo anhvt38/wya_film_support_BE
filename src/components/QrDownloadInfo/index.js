@@ -29,11 +29,11 @@ export const QrDownloadInfo = () => {
         <Image alt='qrcode' src="/qr-test.jpg" width={94} height={94} />
         <div>
           <div className="text-white text-center">扫一扫，App观看更便捷！</div>
-          <div className="text-white cursor-pointer my-2 d-flex gap-3 align-items-center justify-content-between btn-download-android" >
+          <Link href="https://www.wyav.tv/app-download" className="text-white cursor-pointer my-2 d-flex gap-3 align-items-center justify-content-between btn-download-android" >
             <FcAndroidOs className="" />
             <span className="text-center white-space-nowrap"> 下载安卓App </span>
             <IoArrowDown className="" />
-          </div>
+          </Link>
           <div className="now-download-text">没有App？ 立即下载</div>
         </div>
       </div>

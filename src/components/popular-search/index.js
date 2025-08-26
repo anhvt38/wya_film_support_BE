@@ -8,6 +8,7 @@ import { getHotSearchList } from "@/apis/search";
 import { useQuery } from "react-query";
 import _ from "lodash-es";
 import { textColorByOrder } from "@/utils/common";
+import { routes } from "@/contants/routes";
 
 export const PopularSearch = () => {
     const [params, setParams] = useState({
@@ -42,7 +43,9 @@ export const PopularSearch = () => {
                         _.map(myHotSearchList?.slice(0, 5), (item, index) => {
                             return (
                                 <CListGroupItem key={index}>
-                                    <Link href="#" className="text-white d-block w-full py-1 px-3">{item.title}</Link>
+                                    <Link href={`${routes.search}/${item.title}`} className="text-white d-block w-full py-1 px-3">
+                                    {item.title}
+                                    </Link>
                                 </CListGroupItem>
                             )
                         })
@@ -61,7 +64,7 @@ export const PopularSearch = () => {
                             return (
 
                                 <CListGroupItem key={index}>
-                                    <Link href="#" className="d-flex gap-3 align-items-center py-1 px-3">
+                                    <Link href={`${routes.search}/${item.title}`} className="d-flex gap-3 align-items-center py-1 px-3">
                                         <strong className={`order-text fw-bold fs-4 ${textColorByOrder(index)}`}>{index + 1}</strong>
                                         <small className="text-white m-0">{item.title}</small>
                                     </Link>

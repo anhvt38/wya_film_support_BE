@@ -3,7 +3,7 @@
 import { CListGroup, CListGroupItem } from "@coreui/react";
 import Link from "next/link";
 import "./styles.scss";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useContext, useEffect, useState } from "react";
 import _ from "lodash-es";
 import {
   getStarList
@@ -14,10 +14,14 @@ import { CommonPagination } from "../common-pagination";
 import { routes } from "@/contants/routes";
 import { ActressSkeleton } from "../skeleton/actress-skeleton";
 import { ActressItem } from "../actress-item";
+import { MainContext } from "@/layouts/MainLayout";
+import { signQuery } from "@/utils/common";
+import qs from 'qs';
 
 const LIMIT_ITEM_24_A_PAGE = 24;
 
 export const RowCelebritiePage = (props) => {
+  const { privateKey, publicKey } = useContext(MainContext);
   const { cidValue, title = "" } = props;
 
   const pathName = usePathname();
@@ -54,9 +58,9 @@ export const RowCelebritiePage = (props) => {
     size: LIMIT_ITEM_24_A_PAGE,
     orderby: orderBy,
     // orderBy: 0,
-    desc: 1,
-    vv: "0bbed504ca1339001982541a104a0702",
-    pub: "CJSrCJGoDZWnCIurC3auD5ybf2zCJOtBZ4tEIurD2uoDJDVOJ1YPZ8tC31XCcLYD6OoEJbbDZ4oOJ9ZC6GsDsCvDZHVOMGpD64nDJ0oDc4sOMPYCJGqEMPYOJauDJPcOMCnP36"
+    // desc: 1,
+    // vv: "0bbed504ca1339001982541a104a0702",
+    // pub: "CJSrCJGoDZWnCIurC3auD5ybf2zCJOtBZ4tEIurD2uoDJDVOJ1YPZ8tC31XCcLYD6OoEJbbDZ4oOJ9ZC6GsDsCvDZHVOMGpD64nDJ0oDc4sOMPYCJGqEMPYOJauDJPcOMCnP36"
   });
 
 
@@ -72,12 +76,12 @@ export const RowCelebritiePage = (props) => {
     params.page = 1;
   }
 
-  useEffect(() => {
-    setParams({
-      ...params,
-      page: currentPage
-    })
-  }, [currentPage])
+  // useEffect(() => {
+  //   setParams({
+  //     ...params,
+  //     page: currentPage
+  //   })
+  // }, [currentPage])
 
   useEffect(() => {
     const newParams = { ...params, page: page };
@@ -87,30 +91,6 @@ export const RowCelebritiePage = (props) => {
 
   useEffect(() => {
     const newParams = { ...params, orderby: orderBy };
-
-    switch (Number(orderBy)) {
-      case 0:
-        newParams.vv = "0bbed504ca1339001982541a104a0702";
-        newParams.pub =
-          "CJSrCJGoDZWnCIurC3auD5ybf2zCJOtBZ4tEIurD2uoDJDVOJ1YPZ8tC31XCcLYD6OoEJbbDZ4oOJ9ZC6GsDsCvDZHVOMGpD64nDJ0oDc4sOMPYCJGqEMPYOJauDJPcOMCnP36";
-        break;
-      case 1:
-        newParams.vv = "04b707b763d15b52149f9a71f91ecfee";
-        newParams.pub =
-          "CJSrCJGoDZWnCIurC3auD5ybf2zCJOtBZ4tEIurD2uoDJDVOJ1YPZ8tC31XCcLYD6OoEJbbDZ4oOJ9ZC6GsDsCvDZHVOMGpD64nDJ0oDc4sOMPYCJGqEMPYOJauDJPcOMCnP36";
-        break;
-      case 2:
-        newParams.vv = "0d99447a47b7a4184840964206e35ff6";
-        newParams.pub =
-          "CJSrCJGoDZWnCIurC3auD5ybf2zCJOtBZ4tEIurD2uoDJDVOJ1YPZ8tC31XCcLYD6OoEJbbDZ4oOJ9ZC6GsDsCvDZHVOMGpD64nDJ0oDc4sOMPYCJGqEMPYOJauDJPcOMCnP36";
-        break;
-      case 3:
-        newParams.vv = "86f72544003416c4b35e82f3d624d178";
-        newParams.pub =
-          "CJSrCJGoDZWnCIurC3auD5ybf2zCJOtBZ4tEIurD2uoDJDVOJ1YPZ8tC31XCcLYD6OoEJbbDZ4oOJ9ZC6GsDsCvDZHVOMGpD64nDJ0oDc4sOMPYCJGqEMPYOJauDJPcOMCnP36";
-        break;
-    }
-
     setParams(newParams);
   }, [orderBy]);
 
@@ -118,11 +98,11 @@ export const RowCelebritiePage = (props) => {
 
   const { data: starListDatas, isLoading }
     = useQuery({
-      queryKey: ['star-list'],
+      queryKey: ['star-list-on-celebrite-page', params, publicKey, privateKey],
       queryFn: () => {
-        return getStarList({
-          ...params
-        })
+        let paramsSignQuery = qs.stringify(params);
+        paramsSignQuery = signQuery(paramsSignQuery, publicKey, privateKey);
+        return getStarList(paramsSignQuery);
       },
     })
 
@@ -144,7 +124,7 @@ export const RowCelebritiePage = (props) => {
       <div className="tags-homepage-center-6  col-md-4">
         <CListGroup layout="horizontal" className="flex-wrap">
           <CListGroupItem key="0" className=" px-3">
-            <p className="">
+            <p style={{color: "white"}}>
               共有 <span className="mainColor">{recordcount}</span> 个女优
             </p>
           </CListGroupItem>

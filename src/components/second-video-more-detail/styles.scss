@@ -5,7 +5,7 @@
 .wrap-chartdiv {
     display: flex;
     justify-content: space-between;
-
+    margin-top: 50px;
     &>div {
         width: 49%;
     }
@@ -48,7 +48,7 @@
     grid-template-columns: repeat(2, 1fr);
     gap: 10px;
     flex: 1;
-
+    margin-top: 70px;
     .chart-dot-note {
         width: 10px;
         height: 10px;

@@ -4,7 +4,7 @@ import { useContext, useEffect, useState } from "react";
 import "./styles.scss";
 import Link from "next/link";
 import Image from "next/image";
-import { textColorByOrder } from "@/utils/common";
+import { getConvertedQuery, textColorByOrder } from "@/utils/common";
 import { CListGroup, CListGroupItem, CTab, CTabContent, CTabList, CTabPanel, CTabs } from "@coreui/react";
 import { LiaSortAmountDownSolid, LiaSortAmountUpAltSolid } from "react-icons/lia";
 import { IoClose } from "react-icons/io5";
@@ -20,7 +20,8 @@ import _ from "lodash-es";
 import { DEFAULT_CID } from "@/contants/variables";
 import { MainContext } from "@/layouts/MainLayout";
 import EmptySearchResult from "../empty-search-result";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
+import qs from "qs";
 
 const datas = [
     {
@@ -78,71 +79,98 @@ export default function SearchVideo(props) {
     const { } = props || {};
     const params = useParams();
     const decodeKeyword = decodeURIComponent(params.keyword);
+    const searchParams = useSearchParams()
+    const tag = searchParams.get('tag');
+    const label = searchParams.get('label');
+    const cid = searchParams.get('cid');
+    const orderBy = searchParams.get('orderBy');
+    const asc = searchParams.get('asc');
 
-    const { partSearchTotal, setPartSearchTotal, setSearchDataTotal } = useContext(MainContext);
+    const cinema3 = !cid || cid == DEFAULT_CID.svideo || cid == DEFAULT_CID.gay;
+    const cinema2 = !cid || cid == DEFAULT_CID.japanCid || cid == DEFAULT_CID.europeCid || cid == DEFAULT_CID.cartoonCid || cid == DEFAULT_CID.domesticCid;
+    const { partSearchTotal, setPartSearchTotal, setSearchDataTotal, publicKey, privateKey } = useContext(MainContext);
 
     const [tagFilterParams, setTagFilterParams] = useState({
-        cid: "欧美",
-        vv: "b82c202ce17a2201dc232c08c1a6baeb",
-        pub: "CJSrCJ8qCZSvCoutCpWuELyh9ozCZGmCZeuC30wDZ8mPJfXOp4wD3KoEJenOs9YEZSmC3KwP65VOM5XOcGoD3TbCsLbD69aC68mC3DbDJ1cP6KuDcDbCcLVCJ9ZE6HZOZGvEJPbCp0pPJWvP3SsDcDZOZDYCp0vDs2"
     })
 
     const [briefSearchParams, setBriefSearchParams] = useState({
         cinema: 2,
-        tags: "希岛爱理",
-        orderby: 4,
+        tags: decodeKeyword,
         page: 1,
         size: 36,
-        desc: 0,
         isserial: -1
     })
 
     const [briefSearchBody, setBriefSearchBody] = useState({
-        tags: "%E5%B8%8C%E5%B2%9B%E7%88%B1%E7%90%86",
-        vv: "174d28f3b632b0829bd6f194abb71369",
-        pub: "CJSrCJ8qDp8nCIunDZWuD5yh9ozCZGmCZeuC30wDZ8mPJfXOp4wD3KoEJenOs9YEZSmC3KwP65VOpamCc8sOsOpPZarD6LZCs5cEJOsCpasDs8mDJXYCJLVCsHaC6KoOMHbOc9bPZSmDpHYD65XD30vOJ8nCZ0nEJ1"
+        tags: decodeKeyword,
     })
 
     const [briefSearchVideoParams, setBriefSearchVideoParams] = useState({
         cinema: 3,
-        tags: "ok",
-        orderby: 4,
+        tags: decodeKeyword,
         page: 1,
-        size: 36,
-        desc: 0,
+        size: 35,
         isserial: -1,
         isav: true,
-        cid: `0,3`
+        cid: `0,3`,
+        label: tag
     })
 
     const [briefSearchVideoBody, setBriefSearchVideoBody] = useState({
-        tags: "ok",
-        vv: "b9843f649a639997d7485a389509825f",
-        pub: "CJSrCJ8rC30mCouvCZOtDryh9ozCZGmCZeuC30wDZ8mPJfXOp4wD3KoEJenOs9YEZSmC3KwP65VE6GtPMCqP35aCc9aD30rOpbcC3LaOJGmOZHZPMLbPJ1VDp0sP3CmDZOrD6OsDpasD64rE3OuOZXXDZ8pP3CoCZ2"
+        tags: decodeKeyword,
     })
 
 
     const { data: tagFilterDatas } = useQuery({
-        queryKey: ["tag-filter"],
-        queryFn: () => {
-            return getTagFilter({
-                ...tagFilterParams,
-            });
-        },
-    });
+            queryKey: ["tag-filter", tagFilterParams, publicKey, privateKey, label],
+            queryFn: () => {
+                let paramsQuery = qs.stringify(tagFilterParams);
+          if (label == null || label == undefined || label == '') {
+    
+          } else {
+            paramsQuery = paramsQuery + `cid=` + label;
+          }
+          let paramsSignQuery = getConvertedQuery(paramsQuery);
+          paramsSignQuery = `${paramsSignQuery}&cid=${label}`;
+          paramsSignQuery = paramsSignQuery.replace("&vv", 'vv');
+                return getTagFilter(paramsSignQuery);
+            },
+            enabled: !!publicKey
+        });
 
     const { data: briefSearchDatas } = useQuery({
-        queryKey: ["brief-search"],
+        queryKey: ["brief-search", briefSearchBody, briefSearchParams, publicKey, privateKey, cid, tag, orderBy, asc],
         queryFn: () => {
-            return getBriefSearch(briefSearchBody, briefSearchParams);
+            return getBriefSearch({
+                ...briefSearchBody,
+                vv: privateKey,
+                pub: publicKey
+            }, {
+                ...briefSearchParams,
+                orderBy: orderBy || 4,
+                desc: asc ? 0 : 1,
+                cid,
+                label: tag
+            });
         },
+        enabled: !!publicKey && !!privateKey && cinema2
     });
 
     const { data: briefSearchVideoDatas } = useQuery({
-        queryKey: ["brief-search-video"],
+        queryKey: ["brief-search-video", privateKey, publicKey, label, tag, cid, orderBy, asc],
         queryFn: () => {
-            return getBriefSearch(briefSearchVideoBody, briefSearchVideoParams);
+            return getBriefSearch({
+                ...briefSearchVideoBody,
+                vv: privateKey,
+                pub: publicKey
+            }, {
+                ...briefSearchVideoParams,
+                orderBy: orderBy || 4,
+                desc: asc ? 0 : 1,
+                label: cid == DEFAULT_CID.gay ? label : tag
+            });
         },
+        enabled: !!publicKey && !!privateKey && cinema3
     });
 
     const { data: tagFilters } = tagFilterDatas || {};
@@ -161,10 +189,13 @@ export default function SearchVideo(props) {
     return (
         <div className="search-video">
             <SelectCidVideo datas={datas} />
-            <AllTags datas={tagFilters?.info} />
+            {
+                cid &&
+                <AllTags datas={tagFilters?.info} />
+            }
             <div className="search-video-content">
                 {
-                    (!briefSearchs?.info[0]?.result && !briefSearchVideos?.info[0]?.result)
+                    (!briefSearchs?.info[0]?.hasResult && !briefSearchVideos?.info[0]?.hasResult)
                         ? <EmptySearchResult text={`没有找到${decodeKeyword}相关的视频`} isShowAgainOtherText={true} keyword={decodeKeyword} />
                         : <>
                             {

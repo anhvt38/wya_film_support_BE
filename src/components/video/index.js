@@ -14,7 +14,7 @@ import { TbZoomScan } from "react-icons/tb";
 import { LuSaveAll } from "react-icons/lu";
 import { FiMoreHorizontal } from "react-icons/fi";
 import { useQuery } from "react-query";
-import { useCallback, useEffect, useRef, useState } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { getVideoDetail } from "@/apis/detail-page";
 import Hls from "hls.js";
 import { ImPause } from "react-icons/im";
@@ -29,12 +29,14 @@ import { BsArrowsFullscreen } from "react-icons/bs";
 import { VIEWPORT_RATIOS } from "@/contants/variables";
 import { usePathname } from "next/navigation";
 import { routes } from "@/contants/routes";
+import { MainContext } from "@/layouts/MainLayout";
 
 
 export const Video = (props) => {
-    const { id, paramId, videoDetail, relatedVideos, mediaUrl, publisher } = props || {};
+    const { languagesPlayList, videoDetail, relatedVideos, mediaUrl, publisher, mediaKey, onToCurrentPlayList } = props || {};
     const pathname = usePathname();
     const videoRef = useRef(null);
+  const { publicKey, privateKey } = useContext(MainContext);
 
 
     const containerRef = useRef(null);
@@ -230,15 +232,7 @@ export const Video = (props) => {
     useEffect(() => {
         const getVideoSource = async () => {
             if (mediaUrl) {
-                // let endId = id || paramId;
-                // const previewUrl = `${process.env.HOST_API_PREVIEW_VIDEO}?id=${endId}`
-                // const mediaUrl = await getMediaPlaylistUrl(previewUrl);
-                const defaultVv = `ed2ceb7e632f05c47183cf63d7134944`;
-                const defaultPub = `CJSqE3CvDpKmDouoCJatNrPENp8qC38wE30mEZOoC6KwCMOqE3fbE6DZEZHZEJSwCpbbCZevC65aNsCoDZ0nEMOuDJ4vDpGuDJKvCMLaOp0nDcGvPcKrDZKoNpDZDZ4qC38rOZSuCJ8qDJ5bD6DaEJSpPZKpPZXcOMKv`;
-                // const defaultMediaUrl = `https://s2-e1.etcbba.xyz/ppot/_definst_/mp4:s17/live/cr-tmezj-01-0286DA393.mp4/chunklist.m3u8?vendtime=1748570308&vhash=hnkVvWYmtKw9qnGp9h-a7UVl-xvRYpIyzaYqA7HdefE=&vCustomParameter=0_0.0.0.0_VN_1_0&lb=72250729878514654aedf8c305cda459&us=1&proxy=Sp8jPJ4kPNHZOc9XBdXvUdnpCYrbCIvbT6DYOc8kU7bwV7CoBMKnBcLqOs9YOovuUNfyEPaMifYNCheniJ4o5pmyNfyEPaMifYNCheniJ4obpmyNA&vv=${defaultVv}&pub=${defaultPub}`
-                const defaultMediaUrl = `https://s2-e1.tfboyaae.com/ppot/_definst_/mp4:s17/gvod/cr-xajqsn-01-0198D5D0C.mp4/chunklist.m3u8?vendtime=1750040762&vhash=SdFZm5ezMe_eg44FeJoDR3A0D5AauUR9aA1L5BeIW4Y=&vCustomParameter=0_0.0.0.0_VN_1_0&lb=1b37e09092ec24a3f8f171090f9bc962&us=1&proxy=Sp8jPJ4kT6PYRtbXOMKkOsyslZcP5hAObpAwCR4nC9Sy7bwV7CoBMKnBcLqOs9YOYvuUNfyEPaMifYNCheniJ4nbpmyNfyEPaMifYNCheniJ4o5pmyNA&vv=2bc5d26f7191c8febc7a671c4e8549b5&pub=CJSqEJWsDpasCIunDp0sDbyh9ozCZGmCZeuC30wDZ8mPJepDZ5YEZGuDJCwEMGnD3fYCJGqEZ9cPJ1VOJ0rOZLZE3OsOcHaD34oCs4rPZGqPJTYD65bEMLXOpXVDcOrPJXYPZSnDZ4pCZLZPZLXPJTbC3asEMHbE6HaDs6`;
-
-                let endUrl = pathname == routes.watch ? mediaUrl : defaultMediaUrl;
+                const endUrl = pathname == routes.watch ? mediaUrl : `${mediaUrl}&vv=${privateKey}&pub=${publicKey}`;
                 const videoUrl = `/api/proxy?type=previewVideo&url=${encodeURIComponent(endUrl)}`;
                 if (Hls.isSupported()) {
                     const hls = new Hls();
@@ -257,7 +251,7 @@ export const Video = (props) => {
             }
         }
         getVideoSource()
-    }, [])
+    }, [mediaUrl, mediaKey])
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -375,7 +369,10 @@ export const Video = (props) => {
                             {duration ? formatTime(duration) : "00:00"}
                         </span>
                     </div>
-                    <span className="text-white-hover cursor-pointer" onClick={showCollections}>选集</span>
+                    {
+                        languagesPlayList?.length > 1 &&
+                        <span className="text-white-hover cursor-pointer" onClick={showCollections}>选集</span>
+                    }
                 </div>
                 <div className="d-flex gap-5 align-items-center">
                     <CommonDropdown
@@ -405,13 +402,28 @@ export const Video = (props) => {
             <div className="wrap-collections" id="wrap-collections">
                 <div className="collections">
                     <div className="collections-content">
-                        <div className="">
+                        {
+                            _.map(languagesPlayList, (item, index) => {
+                            return(
+                            <div 
+                            onClick={() => onToCurrentPlayList(item.key)}
+                            className="" key={index}>
+                                <span className={mediaKey == item.key ? "text-pink" : "text-main-gray"}>{item.name}</span>
+                                {
+                                mediaKey == item.key &&
+                                <Image alt='runing' src={"/collections-playing.gif"} width={15} height={12} />
+                                }
+                            </div>
+                            )
+                            })
+                        }
+                        {/* <div className="">
                             <span className="text-pink">1</span>
                             <Image alt='runing' src={"/collections-playing.gif"} width={15} height={12} />
                         </div>
                         <div className="">
                             <span className="text-main-gray">2</span>
-                        </div>
+                        </div> */}
                     </div>
                     <div className="collections-trigger" onClick={hideCollections}>
                         <div className="position-relative">

@@ -1,9 +1,10 @@
-import { BUSINESS_GROUP, BUSINESS_KEYS } from "@/contants/variables";
+import { BUSINESS_GROUP, BUSINESS_KEYS, PRIVATES } from "@/contants/variables";
 import { FaChair } from "react-icons/fa";
 import { MdMeetingRoom, MdTableRestaurant } from "react-icons/md";
 import _ from "lodash-es";
 import qs from 'qs';
 import { IoFemale, IoMale, IoMaleFemaleOutline } from "react-icons/io5";
+import md5 from "md5";
 
 export const textColorByOrder = (index) => {
   let color = '';
@@ -177,4 +178,26 @@ export const getSexIcon = (num) => {
   } else {
     return <IoMale className="text-blue" />
   }
+}
+
+export const signQuery = (query, pub, privateKey) => {
+    let vv = md5([pub, query.toLowerCase(), privateKey].join("&"));
+    return query + "&vv=" + vv + "&pub=" + pub;
+}
+
+export const signMethodPostQuery = (query, pub, privateKey) => {
+  let vv = md5([pub, query.toLowerCase(), privateKey].join("&"));
+  return vv;
+}
+
+export const getSecondaryPrivateKey = (pub) => {
+  const privateKeySecondary = PRIVATES[Number(pub) % PRIVATES.length];
+  return privateKeySecondary;
+}
+
+export const getConvertedQuery = (params, publicKey = new Date().getTime(), privateKey = '') => {
+  const query = qs.stringify(params);
+  const privateKeySecondary = privateKey || getSecondaryPrivateKey(publicKey)
+  const convertedQuery = signQuery(query, publicKey, privateKeySecondary);
+  return convertedQuery;  
 }

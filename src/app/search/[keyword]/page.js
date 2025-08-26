@@ -2,6 +2,7 @@ import MainLayout from "@/layouts/MainLayout";
 
 import "./styles.scss";
 import Search from "./content";
+import { Suspense } from "react";
 
 // export const metadata = {
 //     title: '午夜AV-免费成人视频分享网站',
@@ -19,7 +20,9 @@ export default function ListPage({}) {
 
   return (
     <MainLayout>
+      <Suspense>
       <Search />
+      </Suspense>
     </MainLayout>
   );
 }

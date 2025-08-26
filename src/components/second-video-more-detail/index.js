@@ -9,13 +9,13 @@ import { FaFireFlameCurved } from "react-icons/fa6";
 import { IoClose, IoEyeOutline, IoShareSocialOutline } from "react-icons/io5";
 import { FaPlay, FaRegPlayCircle, FaRegStar } from "react-icons/fa";
 import _ from "lodash-es";
-import { convertHotView, ensureHttps, getMediaPlaylistUrl } from "@/utils/common";
+import { convertHotView, ensureHttps, getConvertedQuery, getMediaPlaylistUrl } from "@/utils/common";
 import { TbZoomScan } from "react-icons/tb";
 import { LuSaveAll } from "react-icons/lu";
 import { FiMoreHorizontal } from "react-icons/fi";
 import { useQuery } from "react-query";
-import { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
-import { getVideoDetail, getVideoTrend } from "@/apis/detail-page";
+import { useCallback, useContext, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
+import { getVideoDetail, getVideoPie, getVideoTrend } from "@/apis/detail-page";
 import Hls from "hls.js";
 import { ImPause } from "react-icons/im";
 import { CommonDropdown } from "../common-dropdown";
@@ -36,6 +36,9 @@ import am5themes_Animated from "@amcharts/amcharts5/themes/Animated";
 
 import * as am5xy from "@amcharts/amcharts5/xy";
 import am5locales_zh_Hans from "@amcharts/amcharts5/locales/zh_Hans";
+import { MainContext } from "@/layouts/MainLayout";
+import { useParams } from "next/navigation";
+import { POPULAR_TRENDS } from "@/contants/variables";
 
 const chartColors = [
     {
@@ -54,31 +57,97 @@ const chartColors = [
         chartColor: am5.color(0xFF33F6),
         color: `#FF33F6`
     },
+    {
+        chartColor: am5.color(0x2F4074),
+        color: `#2F4074`
+    },
+    {
+        chartColor: am5.color(0x84B761),
+        color: `#84B761`
+    },
+    {
+        chartColor: am5.color(0xCC4748),
+        color: `#CC4748`
+    },
+    {
+        chartColor: am5.color(0xFDD400),
+        color: `#FDD400`
+    },
+    {
+        chartColor: am5.color(0x6B716B),
+        color: `#6B716B`
+    },
+    {
+        chartColor: am5.color(0xCD82AD),
+        color: `#CD82AD`
+    },
 ]
 
 export const SecondVideoMoreDetail = (props) => {
-    const { videoDetail } = props || {};
-    const { title, view = 0, addTime, tags, stars, isFree, videoType, imgPath } = videoDetail || {};
+    const { videoDetail, videoId } = props || {};
+    const { publicKey, privateKey } = useContext(MainContext);
+
+    const { title, view = 0, add_date, addTime, tags, stars, isFree, videoType, imgPath, sNo } = videoDetail || {};
     const [isShowIntroduce, setIsShowIntroduce] = useState(false);
     const [isShowAnalytic, setIsShowAnalytic] = useState(false);
+    const [showType, setShowType] = useState(POPULAR_TRENDS[0].showtype);
 
-    const [params, setParams] = useState({
+    const [videoPieParams, setVideoPieParams] = useState({
         cinema: 2,
-        id: "OyIC0OCGJ1U",
-        showtype: 0,
-        vv: "91d99e3bd4354e846731357a2e0a83e7",
-        pub: "CJSqE3GvCZKrC2uoCpGoELyh9ozCZGmCZeuC30wDZ8mPJenPZGuEcCrP3GwEMHaDperDJTZEZKuP39VDJKpDp4mOp4sDp1cD39YOM4nDpXcOpKsD68pOpOvOMHVD3TbCJaoOZ1cE3LXD3KuPJbXCpCuPcOuOZOqDpTaEJ4"
+        id: videoId
     });
+
+    const [videoTrendParams, setVideoTrendParams] = useState({
+        cinema: 2,
+        id: videoId,
+        showtype: showType
+    });
+
+
+
+    const { data: videoPieData }
+        = useQuery({
+            queryKey: ['video-pie', videoPieParams, publicKey, privateKey, videoId],
+            queryFn: () => {
+                const convertedQuery = getConvertedQuery(videoPieParams, publicKey, privateKey)
+                return getVideoPie(convertedQuery)
+            },
+            enabled: !!publicKey && !!videoId
+        })
 
     const { data: videoTrendData }
         = useQuery({
-            queryKey: ['video-trend', params],
+            queryKey: ['video-trend', videoTrendParams, publicKey, privateKey, videoId, showType],
             queryFn: () => {
-                return getVideoTrend(params)
+                const convertedQuery = getConvertedQuery({
+                    ...videoTrendParams,
+                    showtype: showType
+                }, publicKey, privateKey)
+                return getVideoTrend(convertedQuery)
             },
+            enabled: !!publicKey && !!videoId
         })
 
+
+    getVideoTrend
+    const { data: videoPie } = videoPieData || {};
     const { data: videoTrend } = videoTrendData || {};
+
+    const ageSexCount = videoPie?.info.AgeSexCount;
+    if (ageSexCount) {
+        delete ageSexCount['未知']
+    }
+
+    const ageSexCountTotal = _.reduce(ageSexCount, (sum, item) => {
+        return sum + item
+    }, 0)
+    const convertedAgeSexCount = _.map(_.omitBy(ageSexCount, (value) => value === 0), (value, key) => ({ key, value: (value / ageSexCountTotal * 100).toFixed(2) }));
+    const mergedAgeSexCount = _.map(convertedAgeSexCount, (item, index) => {
+        if (chartColors[index]) {
+            return { ...item, ...chartColors[index] };
+        }
+        return item;
+    });
 
     useLayoutEffect(() => {
         const root = am5.Root.new("chartdiv");
@@ -110,7 +179,7 @@ export const SecondVideoMoreDetail = (props) => {
         });
 
         series.set("colors", am5.ColorSet.new(root, {
-            colors: _.map(chartColors, item => { return item.chartColor }),
+            colors: _.map(mergedAgeSexCount, item => { return item.chartColor }),
             reuse: false // không lặp lại màu khi có nhiều phần
         }));
 
@@ -146,21 +215,21 @@ export const SecondVideoMoreDetail = (props) => {
             }
         });
 
-        // Dữ liệu mẫu
-        series.data.setAll([
-            { category: "作剧", value: 120 },
-            { category: "作剧", value: 180 },
-            { category: "作剧", value: 300 },
-            { category: "作剧", value: 90 },
-            // { category: "作剧", value: 150 },
-        ]);
+        const dataChart = _.map(mergedAgeSexCount, item => ({
+            category: item.key,
+            value: item.value
+        })) || [];
+
+        series.set("radius", am5.percent(70)); 
+
+        series.data.setAll(dataChart);
 
 
         // Bỏ logo "amCharts" ở góc
         root._logo.dispose();
 
         return () => root.dispose();
-    }, []);
+    }, [mergedAgeSexCount]);
 
     useLayoutEffect(() => {
         var root = am5.Root.new("chartRight");
@@ -192,8 +261,8 @@ export const SecondVideoMoreDetail = (props) => {
         var chart = root.container.children.push(am5xy.XYChart.new(root, {
             panX: false,
             panY: false,
-            wheelX: "panX",
-            wheelY: "zoomX",
+            wheelX: "none",
+            wheelY: "none",
             paddingLeft: 0
         }));
 
@@ -208,46 +277,22 @@ export const SecondVideoMoreDetail = (props) => {
 
         var date = new Date();
         date.setHours(0, 0, 0, 0);
-        var value = 100;
-
-        function generateData() {
-            value = Math.round((Math.random() * 10 - 5) + value);
-            am5.time.add(date, "day", 1);
-            return {
-                date: date.getTime(),
-                value: value
-            };
-        }
-
-        function generateDatas(count) {
-            var data = [];
-            for (var i = 0; i < count; ++i) {
-                data.push(generateData());
-            }
-            return data;
-        }
 
 
-        // Create axes
+
         // https://www.amcharts.com/docs/v5/charts/xy-chart/axes/
         const xRenderer = am5xy.AxisRendererX.new(root, {
             // minorGridEnabled: true,
-            minGridDistance: 1,
+            minGridDistance: 20,
             // minorLabelsEnabled: true,
             stroke: am5.color(0xFFFFFF),
             strokeOpacity: 0.4
         });
-        var xAxis = chart.xAxes.push(am5xy.DateAxis.new(root, {
-            maxDeviation: 0,
-            baseInterval: {
-                timeUnit: "day",
-                count: 1
-            },
+        var xAxis = chart.xAxes.push(am5xy.CategoryAxis.new(root, {
+            categoryField: "labelX",
             renderer: xRenderer,
-            tooltip: am5.Tooltip.new(root, {})
         }));
 
-        console.log(xRenderer.get("axisLine"), 'fff')
 
         xAxis.get("renderer").labels.template.setAll({
             fill: am5.color(0xFFFFFF),
@@ -255,18 +300,14 @@ export const SecondVideoMoreDetail = (props) => {
             fillOpacity: 0.4,
         });
 
-
-        xAxis.set("minorDateFormats", {
-            day: "dd",
-            month: "MM"
+        const yRenderer = am5xy.AxisRendererY.new(root, {
+            stroke: am5.color(0xFFFFFF),
+            strokeOpacity: 0.4
         });
 
         var yAxis = chart.yAxes.push(am5xy.ValueAxis.new(root, {
-            renderer: am5xy.AxisRendererY.new(root, {
-                stroke: am5.color(0xFFFFFF),
-                strokeOpacity: 0.4
-
-            })
+            renderer: yRenderer,
+            // categoryField: "labelY",
         }));
 
         yAxis.get("renderer").labels.template.setAll({
@@ -282,8 +323,9 @@ export const SecondVideoMoreDetail = (props) => {
             name: "Series",
             xAxis: xAxis,
             yAxis: yAxis,
+            // categoryYField: "labelY",
+            categoryXField: "labelX",
             valueYField: "value",
-            valueXField: "date",
             tooltip: am5.Tooltip.new(root, {
                 labelText: "{valueY}"
             })
@@ -304,10 +346,43 @@ export const SecondVideoMoreDetail = (props) => {
         series.set("stroke", am5.color(0xfc748c));
 
         xAxis.get("renderer").grid.template.set("visible", false);
-        yAxis.get("renderer").grid.template.set("visible", false);
+        yAxis.get("renderer").labels.template.adapters.add("text", (text, target) => {
+            let val = target.dataItem?.get("value");
+            if (val != null) {
+                let num = Math.ceil(val / 10000);
+                return num + "万";
+            }
+            return text;
+        });
 
-        var data = generateDatas(7);
+
+        var data = videoTrend?.info.result?.map((item, idx) => {
+            const rawLabel = videoTrend?.info.unit == "月"
+                ? item.key.slice(5) + `${item.isStartYear ? "\n" + `(${item.key.slice(0, 4)})` : ''}`
+                : item.key;
+            return ({
+                labelX: (videoTrend?.info.unit == "月"
+                    ? item.key.slice(5) + "\n" + `(2025)`
+                    : item.key) + "_" + idx,
+                rawLabelX: rawLabel,
+                value: item.hot
+            })
+        }) || [];
+
+        const yCats = _.uniqBy(data, 'labelY').map(d => ({ labelY: d.labelY }));
+
+        xAxis.data.setAll(data.map(d => ({ labelX: d.labelX, rawLabelX: d.rawLabelX })));
+        yAxis.data.setAll(yCats);
         series.data.setAll(data);
+
+        xAxis.get("renderer").labels.template.adapters.add("text", (text, target) => {
+            return target.dataItem?.dataContext?.rawLabelX ?? text;
+        });
+
+        xAxis.get("renderer").labels.template.setAll({
+            textAlign: "center",
+            centerX: am5.p50
+        });
 
 
         // Make stuff animate on load
@@ -318,7 +393,7 @@ export const SecondVideoMoreDetail = (props) => {
         root._logo.dispose();
 
         return () => root.dispose();
-    }, [])
+    }, [videoTrend])
 
     return (
         <div className="second-video-more-detail">
@@ -352,8 +427,8 @@ export const SecondVideoMoreDetail = (props) => {
                 </div>
                 <div className="d-flex gap-2 align-items-center">
                     <div className="d-flex gap-2 me-3">
-                        {_.map(`步兵,双飞,欧美`.split(','), (v, i) => (
-                            <span key={i} className=" px-3 text-color-main bg-secondary-gray">{v}</span>
+                        {_.map(tags, (v, i) => (
+                            <span key={i} className=" px-3 text-color-main bg-secondary-gray">{v.label}</span>
                         ))}
                     </div>
                     <FaFireFlameCurved className="fs-3 text-danger" />
@@ -362,9 +437,16 @@ export const SecondVideoMoreDetail = (props) => {
             </div>
             <CCollapse visible={isShowIntroduce}>
                 <div className="d-flex gap-4">
-                    <Image alt={title} src={ensureHttps(imgPath)} width={216} height={309} />
+                    {
+                        imgPath &&
+                        <Image alt={"star-thumb"} src={ensureHttps(imgPath)} width={216} height={309} />
+                    }
                     <div className="d-flex flex-column gap-4">
-                        <div className="fs-5">添加: {dayjs(addTime).format('DD/MM/YYYY')}</div>
+                        <div className="fs-5">添加: {add_date}</div>
+                        {
+                            sNo &&
+                            <div className="fs-5">番号: {sNo}</div>
+                        }
                         <div className="fs-5">资费: {isFree ? "免费" : ""}</div>
                         <div className="fs-5">分类: {videoType}</div>
                         <div className="fs-5">兵种: {tags && tags[0].label}</div>
@@ -375,32 +457,43 @@ export const SecondVideoMoreDetail = (props) => {
 
             <CCollapse visible={isShowAnalytic}>
                 <div className="wrap-chartdiv">
-                    <div className="d-flex gap-5 align-items-center">
-                        <div id="chartdiv"></div>
-                        <div className="wrap-note-chart">
-                            {
-                                _.map(chartColors, (item, index) => {
-                                    return (
-                                        <div key={index} className="d-flex justify-content-between">
-                                            <div className="d-flex gap-1 align-items-center">
-                                                <div className="chart-dot-note" style={{ background: item.color }}></div>
-                                                <label>作剧</label>
+                    <div>
+                        <span className="fs-4 text-main-gray">喜欢此剧的人群:</span>
+                        <div className="d-flex h-full gap-5 align-items-start">
+                            <div id="chartdiv"></div>
+                            <div className="wrap-note-chart">
+                                {
+                                    _.map(mergedAgeSexCount, (item, index) => {
+                                        return (
+                                            <div key={index} className="d-flex justify-content-between">
+                                                <div className="d-flex gap-1 align-items-center">
+                                                    <div className="chart-dot-note" style={{ background: item.color }}></div>
+                                                    <label>{item.key}</label>
+                                                </div>
+                                                <span>{item.value}%</span>
                                             </div>
-                                            <span>0.53%</span>
-                                        </div>
-                                    )
-                                })
-                            }
+                                        )
+                                    })
+                                }
+                            </div>
                         </div>
                     </div>
+
                     <div className="chart-right">
                         <div className="options-filter-chart">
-                            <label className="text-main-gray">剧剧剧剧:</label>
+                            <label className="text-main-gray fs-5">人气走向：</label>
                             <div>
-                                <span className="text-pink">剧</span>
-                                <span>剧</span>
-                                <span>剧</span>
-                                <span>剧</span>
+                                {
+                                    _.map(POPULAR_TRENDS, (item, index) => {
+                                        return <span
+                                            key={index}
+                                            onClick={() => setShowType(item.showtype)}
+                                            className={item.showtype == showType ? "text-pink cursor-pointer" : "cursor-pointer"}
+                                        >{item.label}
+                                        </span>
+
+                                    })
+                                }
                             </div>
                         </div>
                         <div id="chartRight">

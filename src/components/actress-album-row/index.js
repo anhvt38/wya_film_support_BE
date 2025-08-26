@@ -79,7 +79,7 @@ export const ActressAlbumRow = (props) => {
         </CommonVideoRow>
         {
             detail &&
-        <ActressAlbumDetail onClose={() => setDetail(null)} />
+        <ActressAlbumDetail item={detail} onClose={() => setDetail(null)} />
 
         }
 </>
