@@ -41,7 +41,7 @@ export const RelatedVideos = (props) => {
         <div className="related-videos">
             <div className="d-flex align-items-center gap-3 mb-4">
                 <Image alt='logo-title' src="/images/logo.png" width={20} height={20} />
-                    <h3 className="text-white m-0 d-inline-block">{pathname == routes.watch ?  "即将播放" : "相关内容"}</h3>
+                <h3 className="text-white m-0 d-inline-block">{pathname == routes.watch ? "即将播放" : "相关内容"}</h3>
             </div>
             <div>
 
@@ -50,52 +50,62 @@ export const RelatedVideos = (props) => {
                         _.map(data, (item, index) => {
                             return (
                                 pathname == routes.watch
-                                ? <CListGroupItem className="d-flex gap-3 align-items-start px-0" key={index}>
-                                    <div className="position-relative">
-                                        <Link href="/">
-                                            <Image alt={item.title} src={item.imgPath} width={185} height={102} className="objectfit-cover" />
-                                        </Link>
-                                        <div className="view-time-video">
-                                            <div className="text-white">
-                                                <FaFireFlameCurved className="text-danger" />
-                                                {item.hot}
-                                            </div>
-                                            <span className="text-white">{formatVideoDuration(item.lastSeconds)}</span>
-                                        </div>
-                                    </div>
-                                    <div>
-                                        <Link href="/">
-                                        <h5 className="text-white text-pink-hover mb-4">{item.title}</h5></Link>
-                                        <div className="d-flex justify-content-between align-items-center  gap-5">
-                                            <Link className="d-flex align-items-center gap-2 " href="/">
-                                                <Image alt='avatar' src={item.headImg} width={20} height={20} className="rounded-circle" />
-                                                <span className="text-main-gray text-pink-hover">{item.nickName}</span>
+                                    ? <CListGroupItem className="d-flex gap-3 align-items-start px-0" key={index}>
+                                        <div className="position-relative">
+                                            <Link href={`${routes.watch}?v=${item.contxt}`}>
+                                                <Image alt={item.title} src={item.imgPath} width={185} height={102} className="objectfit-cover" />
                                             </Link>
-                                            <span className="text-main-gray">{dayjs(item.addTime).format('YYYY-MM-DD')}</span>
-                                        </div>
-                                    </div>
-                                </CListGroupItem>
-                                : <CListGroupItem className="d-flex gap-3 align-items-start px-0" key={index}>
-                                    <div className="position-relative">
-                                        <Link href="/">
-                                            <Image alt={item.title} src={item.imgPath} width={105} height={150} className="objectfit-cover" />
-                                        </Link>
-                                    </div>
-                                    <div className="d-flex flex-column gap-4">
-                                        <Link href="/">
-                                        <h5 className="text-white text-pink-hover">{item.title}</h5>
-                                        </Link>
-                                        <div className="d-flex gap-2">
-                                            {_.map(`步兵,双飞,欧美`.split(','), (v, i) => (
-                                                <span key={i} className=" px-3 text-main-gray bg-secondary-gray">{v}</span>
-                                            ))}
+                                            <div className="view-time-video">
+                                                <div className="text-white">
+                                                    <FaFireFlameCurved className="text-danger" />
+                                                    {item.hot}
+                                                </div>
+                                                <span className="text-white">{formatVideoDuration(item.lastSeconds)}</span>
+                                            </div>
                                         </div>
                                         <div>
-                                            <span className=" text-main-gray">分类</span>
-                                            <span className="text-white">{" 卡通"}</span>
+                                            <Link href={`${routes.watch}?v=${item.contxt}`}>
+                                                <h5 className="text-white text-pink-hover mb-4">{item.title}</h5></Link>
+                                            <div className="d-flex justify-content-between align-items-center  gap-5">
+                                                <Link className="d-flex align-items-center gap-2 " href={`${routes.space}/${item.userKey}`}>
+                                                    <Image alt='avatar' src={item.headImg} width={20} height={20} className="rounded-circle" />
+                                                    <span className="text-main-gray text-pink-hover">{item.nickName}</span>
+                                                </Link>
+                                                <span className="text-main-gray">{dayjs(item.addTime).format('YYYY-MM-DD')}</span>
+                                            </div>
                                         </div>
-                                    </div>
-                                </CListGroupItem>
+                                    </CListGroupItem>
+                                    : <CListGroupItem className="d-flex gap-3 align-items-start px-0" key={index}>
+                                        <div className="position-relative">
+                                            <Link href={`${routes.play}/${item.contxt}`}>
+                                                <Image alt={item.title} src={item.imgPath} width={105} height={150} className="objectfit-cover" />
+                                            </Link>
+                                        </div>
+                                        <div className="d-flex flex-column gap-4">
+                                            <Link href={`${routes.play}/${item.contxt}`}>
+                                                <h5 className="text-white text-pink-hover">{item.title}</h5>
+                                            </Link>
+                                            <div className="d-flex gap-2">
+                                                {_.map(item.tags.split(','), (v, i) => (
+                                                    <span key={i} className=" px-3 text-main-gray bg-secondary-gray">{v}</span>
+                                                ))}
+                                            </div>
+                                            <div>
+                                                {
+                                                    item.sNo
+                                                        ? <div className="d-flex gap-2">
+                                                            <span className=" text-main-gray">番号</span>
+                                                            <span className="text-white">{item.sNo}</span>
+                                                        </div>
+                                                        : <div className="d-flex gap-2">
+                                                            <span className=" text-main-gray">分类</span>
+                                                            <span className="text-white">{item.cid}</span>
+                                                        </div>
+                                                }
+
+                                            </div>
+                                        </div>
+                                    </CListGroupItem>
                             )
                         })
                     }

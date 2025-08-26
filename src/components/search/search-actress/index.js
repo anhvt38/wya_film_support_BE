@@ -14,62 +14,74 @@ import { getBriefSearch } from "@/apis/search";
 import _ from "lodash-es";
 import SearchVideoItem from "../search-video-item";
 import { MainContext } from "@/layouts/MainLayout";
-import { useParams } from "next/navigation";
+import { useParams, useSearchParams } from "next/navigation";
 import EmptySearchResult from "../empty-search-result";
 
 export default function SearchActress({ watchRoute = true, paramId }) {
-    const { partSearchTotal, setPartSearchTotal, setSearchDataTotal } = useContext(MainContext);
+    const { privateKey, publicKey, partSearchTotal, setPartSearchTotal, setSearchDataTotal } = useContext(MainContext);
     const params = useParams();
     const decodeKeyword = decodeURIComponent(params.keyword);
+    const searchParams = useSearchParams()
+    const orderBy = searchParams.get('orderBy');
+    const asc = searchParams.get('asc');
 
     const [briefSearchParams, setBriefSearchParams] = useState({
         cinema: 2,
-        tags: "希岛爱理",
-        star: "希岛爱理",
-        orderby: 4,
         page: 1,
         size: 36,
-        desc: 0,
         isserial: -1
     })
 
     const [briefSearchBody, setBriefSearchBody] = useState({
-        tags: "%E5%B8%8C%E5%B2%9B%E7%88%B1%E7%90%86",
-        vv: "e2107455caf23d8d45fcc1cb141e890d",
-        pub: "1751249109868"
     })
 
     const [briefSearchVideoStarParams, setBriefSearchVideoStarParams] = useState({
         cinema: 3,
-        tags: "希岛爱理",
-        star: "希岛爱理",
-        orderby: 4,
         page: 1,
         size: 36,
-        desc: 0,
         isserial: -1,
         isav: true,
         cid: `0,3`
     })
 
     const [briefSearchVideoStarBody, setBriefSearchVideoStarBody] = useState({
-        tags: "希岛爱理",
-        vv: "b9843f649a639997d7485a389509825f",
-        pub: "CJSrCJ8rC30mCouvCZOtDryh9ozCZGmCZeuC30wDZ8mPJfXOp4wD3KoEJenOs9YEZSmC3KwP65VE6GtPMCqP35aCc9aD30rOpbcC3LaOJGmOZHZPMLbPJ1VDp0sP3CmDZOrD6OsDpasD64rE3OuOZXXDZ8pP3CoCZ2"
     })
 
     const { data: briefSearchStarDatas } = useQuery({
-        queryKey: ["brief-search-star"],
+        queryKey: ["brief-search-star", briefSearchBody, briefSearchParams, orderBy, asc],
         queryFn: () => {
-            return getBriefSearch(briefSearchBody, briefSearchParams);
+            return getBriefSearch({
+                ...briefSearchBody,
+                tags: decodeKeyword,
+                vv: privateKey,
+                pub: publicKey
+            }, {
+                ...briefSearchParams,
+                orderBy: orderBy || 4,
+                desc: asc ? 0 : 1,
+                tags: decodeKeyword,
+                star: decodeKeyword
+            });
         },
     });
 
     const { data: briefSearchVideoStarDatas } = useQuery({
-        queryKey: ["brief-search-video-star"],
+        queryKey: ["brief-search-video-star", briefSearchVideoStarParams, publicKey, privateKey, orderBy, asc],
         queryFn: () => {
-            return getBriefSearch(briefSearchVideoStarBody, briefSearchVideoStarParams);
+            return getBriefSearch({
+                ...briefSearchVideoStarBody,
+                tags: decodeKeyword,
+                vv: privateKey,
+                pub: publicKey
+            }, {
+                ...briefSearchVideoStarParams,
+                 orderBy: orderBy || 4,
+                desc: asc ? 0 : 1,
+                 tags: decodeKeyword,
+                star: decodeKeyword
+            });
         },
+        enabled: !!publicKey && !!privateKey
     });
 
     const { data: briefSearchStars } = briefSearchStarDatas || {};
@@ -88,7 +100,7 @@ export default function SearchActress({ watchRoute = true, paramId }) {
     return (
         <div className="search-actress">
             {
-                (!briefSearchStars?.info[0]?.result && !briefSearchVideoStars?.info[0]?.result)
+                (!briefSearchStars?.info[0]?.hasResult && !briefSearchVideoStars?.info[0]?.hasResult)
                     ? <EmptySearchResult text={`没有找到${decodeKeyword}相关的视频`} keyword={decodeKeyword} />
                     : <>
                         {

@@ -47,17 +47,20 @@ export const NightLivestreamRow = (props) => {
     const [params, setParams] = useState({
     })
 
-    const { data: adultLiveListData, isLoading }
-        = useQuery({
-            queryKey: ['adult-live-list'],
-            queryFn: () => {
-                return getAdultLiveList({
-                    ...params
-                })
-            },
-        })
+    const [adultLiveList, setAdultLiveList] = useState({ info: [] });
+    const [hasFetchedAdultLive, setHasFetchedAdultLive] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
 
-    const { data: adultLiveList } = adultLiveListData || {};
+    useEffect(() => {
+        if (hasFetchedAdultLive) return
+        setIsLoading(true)
+        getAdultLiveList(params).then(({ data }) => {
+            setAdultLiveList(data)
+            setHasFetchedAdultLive(true);
+            setIsLoading(false)
+        })
+    }, [params])
+
     return (
 
         <CommonVideoRow title="午夜直播" isRowLivestream={true}>

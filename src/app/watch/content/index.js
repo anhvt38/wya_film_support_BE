@@ -14,49 +14,46 @@ import { CommonPopover } from "@/components/common-popover";
 import { AuthorInfoPopup } from "@/components/author-info-popup";
 import { FcAndroidOs } from "react-icons/fc";
 import { RelatedVideos } from "@/components/related-videos";
-import { getInfoVideoDetail, getRelatedVideo, getVideoDetail, getVideoDetailType2 } from "@/apis/detail-page";
+import { getInfoVideoDetail, getLanguagesPlayList, getRelatedVideo, getUserViewModel, getVideoDetail, getVideoDetailType2 } from "@/apis/detail-page";
 import { useQuery } from "react-query";
 import Link from "next/link";
 import _ from "lodash-es";
-import { convertHotView, ensureHttps } from "@/utils/common";
+import { convertHotView, ensureHttps, getConvertedQuery, getImgSrcByUserLevel, getSexIcon, signQuery } from "@/utils/common";
 import { routes } from "@/contants/routes";
 import { SecondVideoMoreDetail } from "@/components/second-video-more-detail";
 import { QrDownloadInfo } from "@/components/QrDownloadInfo";
 import { MainContext } from "@/layouts/MainLayout";
 import DetailVideoComment from "@/components/detail-video-comment";
 import PopupAuthorInfo from "@/components/popup-author-info";
+import qs from 'qs';
 
 export default function VideoDetail({ watchRoute = true, paramId }) {
-  const [totalMainVideo, setTotalMainVideo] = useState(12);
+
+  const router = useRouter();
   const pathname = usePathname();
-    const { setIsOpenAuthModal } = useContext(MainContext);
+  const { setIsOpenAuthModal, publicKey, privateKey } = useContext(MainContext);
 
   const searchParams = useSearchParams()
   const id = searchParams.get('v');
+  const videoIdPagePlay = searchParams.get('id');
   const [params, setParams] = useState({
     cinema: 2,
-    id: `2Tr71n7j3K9`,
-    a: 1,
     region: "SG",
     device: 1,
     ispath: true,
     alluser: 1,
-    vv: "8875f1099796fd69d64bfef439f0653c",
-    pub: "CJSqE3CqDZ0pDYupEJOsCLyfewzCpSkCJ8mBZ4rCIuoCbyQcvgocXaQc38Q6ncQCHkPCHcmcRCmiPWRi9iP6viRiYzCMLbOMDcCZWpOc8sOMGvC3aqOs9bOpOrCM4mOZ9bPZ3",
-
+    id,
+    a: 1
   });
 
   const [secondParams, setSecondParams] = useState({
     cinema: 2,
-    id: "krc7pagzYw3",
-    a: 1,
     usersign: 1,
     region: "SG",
     device: 1,
     isMasterSupport: 1,
-    vv: "db6f2208d6eca24bbbec622dd749c5a6",
-    pub: 1748387071091
-
+    id: paramId,
+    a: 1
   });
 
   const [detailInfoParams, setDetailInfoParams] = useState({
@@ -67,75 +64,154 @@ export default function VideoDetail({ watchRoute = true, paramId }) {
     country: "HU",
     lang: "cns",
     v: 1,
-    id: `krc7pagzYw3`,
+    id: id || paramId,
     region: "SG",
-    vv: "86d96ce5e28083b35c41e155e153d0d8",
-    pub: "CJSqE3CvDpKmDouoCJatNrPENp8qC38wE30mEZOoC6KwCMOqE3fbE6DZEZHZEJSwCpbbCZevC65aNsCoDZ0nEMOuDJ4vDpGuDJKvCMLaOp0nDcGvPcKrDZKoNpDZDZ4qC38rOZSuCJ8qDJ5bD6DaEJSpPZKpPZXcOMKv",
-
   });
 
   const [relatedParams, setRelatedParams] = useState({
     cinema: 3,
-    cid: "top",
-    title: "约操兼职少妇最后被发现在偷拍",
     size: 15,
     set: 1,
     isNews: true,
-    id: 35628,
-    tags: "人妻,小姐",
     isav: true,
-    vv: "fb4395a8701a65b63064cc30659f2644",
-    pub: "CJSqE3CpC3WuDYurD3OmDryh9ozCZGmCZeuC30wDZ8mPJenPZGuEZCuEMGwDZKpPJfZDsHZEc9ZCpPVOsDbCp5cCcKsDpHYD35aE3aoE6LbC6GqCJOoEJ5YCcPVPZSqDZWoDZKnCMDZOZPZEJSoDpWtD3WuDZCqDcDZPM2"
   });
 
-  const { data: videoDetailType2Data }
-    = useQuery({
-      queryKey: ['video-detail-type-2', secondParams],
-      queryFn: () => {
-        return getVideoDetailType2(secondParams)
+  const [playRelatedParams, setPlayRelatedParams] = useState({
+    cinema: 2,
+    size: 10,
+    set: 1,
+    isav: true,
+  });
+
+  const [languagesPlayListparams, setLanguagesPlayListParams] = useState({
+    cinema: 2,
+    lsk: 1,
+    taxis: 0,
+  });
+
+
+  const [viewModelParams, setviewModelParams] = useState({
+    touid: 128975927
+  });
+
+  const [videoDetail, setVideoDetail] = useState({ info: [] })
+  const [videoDetailType2, setVideoDetailType2] = useState({ info: [] })
+  const [infoVideo, setInfoVideo] = useState({ info: [] })
+  const [userViewModel, setUserViewModel] = useState({ info: [] })
+  const [hasFetched, setHasFetched] = useState(false)
+
+
+  useEffect(() => {
+    if (hasFetched) return
+    if (!id || !publicKey) return
+
+    const convertedQuery = getConvertedQuery(
+      {
+        ...params,
+        id: videoIdPagePlay || id,
+        a: videoIdPagePlay ? 0 : 1,
       },
-      enabled: !!paramId && !id
+      publicKey,
+      privateKey
+    )
+
+    getVideoDetail(convertedQuery).then(({ data }) => {
+      setVideoDetail(data)
+      setHasFetched(true)
+
     })
+  }, [id, params, publicKey, privateKey, videoIdPagePlay])
 
-  const { data: videoDetailData }
-    = useQuery({
-      queryKey: ['video-detail', params],
-      queryFn: () => {
-        return getVideoDetail(params)
-      },
-      enabled: !paramId && !!id
+  useEffect(() => {
+    if (hasFetched) return
+    if (!paramId || !publicKey) return
+
+    const convertedQuery = getConvertedQuery({
+      ...secondParams,
+      id: videoIdPagePlay || paramId,
+      a: videoIdPagePlay ? 0 : 1
+    }, publicKey, privateKey)
+
+    getVideoDetailType2(convertedQuery).then(({ data }) => {
+      setVideoDetailType2(data)
+      setHasFetched(true)
+
     })
+  }, [secondParams, publicKey, privateKey, videoIdPagePlay, paramId])
 
-  const { data: infoVideoData }
-    = useQuery({
-      queryKey: ['info-video', detailInfoParams],
-      queryFn: () => {
-        return getInfoVideoDetail(detailInfoParams)
-      },
-      enabled: pathname != routes.watch
+  useEffect(() => {
+    if (pathname == routes.watch && !!publicKey) return
+    if (!paramId || !publicKey) return
+
+    const convertedQuery = getConvertedQuery(detailInfoParams, publicKey, privateKey)
+
+    getInfoVideoDetail(convertedQuery).then(({ data }) => {
+      setInfoVideo(data)
     })
+  }, [detailInfoParams, publicKey, privateKey, pathname])
 
-  const { data: videoDetail } = videoDetailData || {};
-  const { data: videoDetailType2 } = videoDetailType2Data || {};
-  const { data: infoVideo } = infoVideoData || {};
 
-  const { info } = videoDetail || videoDetailType2 || {};
-  const { flvPathList = [] } = (info && info[0]) || {};
+  useEffect(() => {
+    if (!publicKey) return
+
+    const convertedQuery = getConvertedQuery(viewModelParams, publicKey, privateKey)
+
+    getUserViewModel(convertedQuery).then(({ data }) => {
+      setUserViewModel(data)
+    })
+  }, [viewModelParams, publicKey, privateKey])
+
+
+
+  const { id: videoDetailId, flvPathList = [], title: detailVideoTitle, tags, publisher, mediaKey } = videoDetail?.info[0] || videoDetailType2.info[0] || {};
   const hlsMediaUrl = _.find(flvPathList, item => item.isHls);
   const { result } = hlsMediaUrl || {};
 
+  const { data: languagesPlayListData }
+    = useQuery({
+      queryKey: ['language-play-list', languagesPlayListparams, publicKey, privateKey, id, paramId],
+      queryFn: () => {
+        let paramsSignQuery = qs.stringify(languagesPlayListparams);
+        paramsSignQuery += `&cid=0,2,10,88&vid=${id || paramId}`
+        const convertedQuery = signQuery(paramsSignQuery, publicKey, privateKey)
+        return getLanguagesPlayList(convertedQuery)
+      },
+      enabled: !!publicKey
+    })
+
+  const { data: languagesPlayList } = languagesPlayListData || {};
+  const languagesPlayListResult = languagesPlayList?.info[0].playList || [];
+
+  let endPublisher = publisher || infoVideo?.info[0]?.publisher;
+  let { id: idInfoDetail, cid, title: titleInfoDetail } = infoVideo?.info[0] || {};
+  const { title, avatar, hot, gender, from, likes, slogon, videoCount, fansCount, userLevel } = endPublisher || {};
+
   const { data: relatedVideoDatas }
     = useQuery({
-      queryKey: ['related-videos', relatedParams],
+      queryKey: ['related-videos', relatedParams, playRelatedParams, publicKey, privateKey, detailVideoTitle, tags, cid, videoDetailId,titleInfoDetail, idInfoDetail] ,
       queryFn: () => {
-        return getRelatedVideo(relatedParams)
+        let convertedQuery = ``;
+        if (pathname == routes.watch) {
+          let paramsSignQuery = qs.stringify(relatedParams);
+          paramsSignQuery += `&id=${videoDetailId}&cid=top&title=${detailVideoTitle}&tags=${tags?.join(',')}`
+          convertedQuery = signQuery(paramsSignQuery, publicKey, privateKey)
+        } else {
+          let paramsSignQuery = qs.stringify(playRelatedParams);
+          paramsSignQuery += `&cid=${cid}&title=${titleInfoDetail}&id=${idInfoDetail}`
+          convertedQuery = signQuery(paramsSignQuery, publicKey, privateKey)
+        }
+        return getRelatedVideo(convertedQuery)
       },
+      enabled: !!publicKey
     })
 
   const { data: relatedVideos } = relatedVideoDatas || {};
-  const { publisher } = (info && info[0]) || {};
-  let endPublisher = publisher || infoVideo?.info[0].publisher;
-  const { title, avatar, hot, gender, from, likes, slogon, videoCount, fansCount } = endPublisher || {};
+
+
+  const onToCurrentPlayList = (key) => {
+    setHasFetched(false)
+    router.push(`${pathname}?id=${key}`)
+  }
 
   return (
     <div className="video-detail">
@@ -143,13 +219,22 @@ export default function VideoDetail({ watchRoute = true, paramId }) {
         {
           result &&
           <>
-            <Video mediaUrl={result} id={id} paramId={paramId} relatedVideos={relatedVideos?.info} videoDetail={videoDetail?.info[0]} publisher={endPublisher} />
+            <Video
+              mediaUrl={result}
+              relatedVideos={relatedVideos?.info}
+              videoDetail={videoDetail?.info[0]}
+              publisher={endPublisher}
+              languagesPlayList={languagesPlayListResult}
+              mediaKey={mediaKey}
+              onToCurrentPlayList={onToCurrentPlayList}
+            />
             <VideoToolbar videoDetail={videoDetail?.info[0]} />
           </>
         }
       </div>
+
       <div className="video-detail-right d-flex flex-column justify-content-between">
-        <Link href="/">
+        <Link href="https://ppt.wyav.tv/c/c?position=VPR&i=634&r=17">
           <div className="ads-top-detail">
             <span>广告</span>
             <Image
@@ -166,19 +251,25 @@ export default function VideoDetail({ watchRoute = true, paramId }) {
           <div className="d-flex justify-content-between align-items-center">
 
             <div className="d-flex gap-4 position-relative">
-              <PopupAuthorInfo avatar={avatar} endPublisher={endPublisher} />
+              <PopupAuthorInfo avatar={avatar} userViewModel={userViewModel?.info[0]} />
               <div>
                 <h5 className="fw-normal truncate-one-line">{title}
-                  <IoMaleFemaleOutline className="text-blue fw-bold ms-2" />
+                  <span className="fw-bold ms-2">
+                    {getSexIcon(!gender)}
+                  </span>
                 </h5>
                 <div className="d-flex gap-3 align-items-end text-main-gray">
-                  <Image
-                    alt='vip1'
-                    src="/level/lv_1.png"
-                    width={40}
-                    height={19}
-                    className=""
-                  />
+                  {
+                    userLevel &&
+                    <Image
+                      alt={userLevel}
+                      src={getImgSrcByUserLevel(userLevel)}
+                      width={40}
+                      height={19}
+                      className=""
+                    />
+                  }
+
                   <FaMapMarkerAlt />
                   <span style={{ marginBottom: "-2px" }}>{from}</span>
                 </div>
@@ -195,7 +286,7 @@ export default function VideoDetail({ watchRoute = true, paramId }) {
           </div>
         </div>
       </div>
-      <Link href="/">
+      <Link href="https://ppt.wyav.tv/c/c?position=VPB&i=635&r=17">
         <div className="ads-bottom-video">
           <Image
             alt='ads'
@@ -215,17 +306,33 @@ export default function VideoDetail({ watchRoute = true, paramId }) {
         {
           pathname == routes.watch
             ? <VideoMoreDetail videoDetail={videoDetail?.info[0]} />
-            : <SecondVideoMoreDetail videoDetail={infoVideo?.info[0]} />
+            : <SecondVideoMoreDetail videoDetail={infoVideo?.info[0]} videoId={paramId} />
         }
-        <div className="collections-bottom">
-            <div className="">
-                <span className="text-pink">1</span>
-                <Image alt='runing' src={"/collections-playing.gif"} width={15} height={12} />
-            </div>
-            <div className="">
-                <span className="text-main-gray">2</span>
-            </div>
-        </div>
+        {
+          languagesPlayListResult?.length > 1 &&
+
+          <div className="collections-bottom">
+            {
+              _.map(languagesPlayListResult, (item, index) => {
+                return (
+                  <div 
+                  onClick={() => {
+                    setHasFetched(false)
+                    router.push(`${pathname}?id=${item.key}`)
+                  }}
+                  className="" 
+                  key={index}>
+                    <span className={mediaKey == item.key ? "text-pink" : "text-main-gray"}>{item.name}</span>
+                    {
+                      mediaKey == item.key &&
+                      <Image alt='runing' src={"/collections-playing.gif"} width={15} height={12} />
+                    }
+                  </div>
+                )
+              })
+            }
+          </div>
+        }
 
         <DetailVideoComment />
       </div>

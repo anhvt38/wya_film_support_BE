@@ -20,8 +20,7 @@ export const getSearchUser = async (body, params, headers) => {
     return apiRequestRankv21(`/v3/list/searchUser?${query}`, 'POST', body, {...headers});
 }
 
-export const getLabels = async (params) => {
-    const query = qs.stringify(params);
+export const getLabels = async (query) => {
     return apiRequestApi8(`/v3/album/getlabels?${query}`);
 }
 

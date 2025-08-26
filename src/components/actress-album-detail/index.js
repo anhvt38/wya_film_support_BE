@@ -91,35 +91,33 @@ const NextArrow = ({ onClick }) => (
 );
 
 export const ActressAlbumDetail = (props) => {
-    const { onClose } = props;
-    const isLogined = true;
-    const { setIsOpenAuthModal } = useContext(MainContext);
+    const { item = {}, onClose } = props;
+    const { albumID } = item;
+    const isLogined = false;
+    const { setIsOpenAuthModal, publicKey, privateKey } = useContext(MainContext);
 
     const [current, setCurrent] = useState(0);
     const [listTrendsState, setListTrendsState] = useState([]);
 
     const [params, setParams] = useState({
         cinema: 2,
-        pid: 31810
+        pid: albumID
 
     })
 
     const [bodyTrends, setBodyTrends] = useState({
-        vv: "78823efca67d34ad597da0cdfb24ec94",
-        pub: "CJSqEJ0vCJSpDouqDJCvDLyfewzCJGvBZ4mCYuoCp4kE31VOZ5YOMCsPJDYCs4oD6KoD65aC38pOZ4nPZWqCpTaDMPVP3GtP34qDZGrOJOrDJaqCZTbDZWqOJTZDZCpDJTcOZ5"
-    })
+        vv: privateKey,
+        pub: publicKey
+    },)
 
     const [listTrendParams, setListTrendParams] = useState({
         cinema: 2,
-        touid: 129005631
     })
 
 
     const [listTrendBody, setListTrendBody] = useState({
         page: 1,
         size: 10,
-        vv: "767348a272b08f31bc98991a8279851c",
-        pub: "CJSqEJ8mC3arCYutE38nCbyh9ozCZGmCZeuC30wDZ8mPJenPZGuEZ4mP3KwDM9ZCpetEM4wPZauCLySd1cmiR8S6vkRCp8Q6hCoi9WOcfiQch2QiHYoCneQcQzOpPaOJ0tOJapC6CnC3SoOpWoCJanPJ4vDpbcOc8tDM6"
     })
 
     const mainSlider = useRef();
@@ -139,27 +137,40 @@ export const ActressAlbumDetail = (props) => {
 
     const { data: trendDatas, isLoading }
         = useQuery({
-            queryKey: ['get-trends', params],
+            queryKey: ['get-trends', params, publicKey, privateKey],
             queryFn: () => {
                 return getTrends(bodyTrends, params)
             },
+            enabled: !!publicKey && !!privateKey
         })
 
-    const {
+    const trend = trendDatas?.data.info[0];
+
+    const { avatar, countryCode, fansCount, favoriteCount, likeCount, like, label, photoCount, photoAlbumDetailsList, nickName, viewCount, comments, title, createTimeStr, uid } = trend || {};
+
+const {
         data,
         fetchNextPage,
         hasNextPage,
         isFetchingNextPage,
         status,
     } = useInfiniteQuery({
-        queryKey: ['get-list-trends1', listTrendBody, listTrendParams],
+        queryKey: ['get-list-trends1', listTrendBody, listTrendParams, uid],
         queryFn: ({ pageParam = 1, queryKey }) => {
 
             const [, listTrendBody, listTrendParams] = queryKey;
 
-            return getListTrends(listTrendBody, listTrendParams, pageParam
+            return getListTrends({
+                ...listTrendBody,
+                vv: privateKey,
+                pub: publicKey
+            }, {
+                ...listTrendParams,
+                touid: uid
+            }, pageParam
             );
         },
+        enabled: !!uid,
         onSuccess: (data) => {
             let mergeListTrends = []
             _.forEach(data.pages, item => {
@@ -171,18 +182,13 @@ export const ActressAlbumDetail = (props) => {
             setListTrendsState(mergeListTrends)
         },
         getNextPageParam: (lastPage, allPages) => {
-            const total = lastPage.data.info[0].recordCount;
+            const total = lastPage.data.info[0]?.recordCount;
             const totalPage = Math.ceil(total / listTrendBody.size)
             return listTrendBody.page < totalPage
                 ? listTrendBody.page + 1
                 : false;
         },
     });
-
-    const trend = trendDatas?.data.info[0];
-
-    const { avatar, countryCode, fansCount, favoriteCount, likeCount, like, label, photoCount, photoAlbumDetailsList, nickName, viewCount, comments, title, createTimeStr } = trend || {};
-
 
     const scrollThumbs = (direction) => {
         const container = thumbContainerRef.current;
@@ -330,7 +336,7 @@ export const ActressAlbumDetail = (props) => {
                         </div>
                         <span className="text-main-gray">{createTimeStr}</span>
                     </div>
-                    <CButton className="text-pink border-pink bg-pink-hover text-white-hover py-1 px-2">+关注 {fansCount}</CButton>
+                    <CButton onClick={() => setIsOpenAuthModal(true)} className="text-pink border-pink bg-pink-hover text-white-hover py-1 px-2">+关注 {fansCount}</CButton>
                 </div>
                 <div className="p-3 text-white pb-0">
                     {title}

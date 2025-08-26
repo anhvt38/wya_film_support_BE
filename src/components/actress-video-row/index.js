@@ -7,7 +7,7 @@ import { CommonVideoRow } from "../common-video-row";
 import { NewVideoItem } from "../new-video-item";
 import Slider from "react-slick";
 import { MdArrowBackIosNew, MdArrowForwardIos } from "react-icons/md";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { MainVideoItem } from "../main-video-item";
 import _ from 'lodash-es';
 import { ActressItem } from "../actress-item";
@@ -15,9 +15,14 @@ import { ActressSkeleton } from "../skeleton/actress-skeleton";
 import { getStarList } from "@/apis/homepage";
 import { useQuery } from "react-query";
 import { routes } from "@/contants/routes";
-
+import { MainContext } from "@/layouts/MainLayout";
+import { getConvertedQuery, getSecondaryPrivateKey, signQuery } from "@/utils/common";
+import qs from 'qs';
+import { PRIVATES } from "@/contants/variables";
 
 export const ActressVideoRow = (props) => {
+        const { privateKey, publicKey } = useContext(MainContext);
+    
     const { title = '' } = props;
     const [totalStar, setTotalStar] = useState(16)
 
@@ -27,18 +32,18 @@ export const ActressVideoRow = (props) => {
         size: 16,
         orderBy: 1,
         desc: 1,
-        vv: "5f210d36fd9f96c9b85f87569ba5ea51",
-        pub: "1751424006780"
+        // vv: "5f210d36fd9f96c9b85f87569ba5ea51",
+        // pub: "1751424006780"
     })
 
     const { data: starListDatas, isLoading }
         = useQuery({
-            queryKey: ['star-list'],
+            queryKey: ['star-list', params, privateKey, publicKey],
             queryFn: () => {
-                return getStarList({
-                    ...params
-                })
+                const convertedQuery = getConvertedQuery(params, publicKey, privateKey)
+                return getStarList(convertedQuery)
             },
+            enabled: !!publicKey
         })
 
     const { data: starList } = starListDatas || {};

@@ -7,7 +7,7 @@ import { CommonVideoRow } from "../common-video-row";
 import { NewVideoItem } from "../new-video-item";
 import Slider from "react-slick";
 import { MdArrowBackIosNew, MdArrowForwardIos } from "react-icons/md";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { MainVideoItem } from "../main-video-item";
 import _ from 'lodash-es';
 import { ActressAlbumItem } from "../actress-album-item";
@@ -18,43 +18,43 @@ import { getAllInOneType, getMainMenus } from "@/apis/homepage";
 import { useQuery } from "react-query";
 import qs from 'qs';
 import { routes } from "@/contants/routes";
+import { MainContext } from "@/layouts/MainLayout";
+import { getConvertedQuery, signQuery } from "@/utils/common";
 
 
 export const TagsHomepage = (props) => {
     const { title = '' } = props;
+    const { privateKey, publicKey } = useContext(MainContext);
 
     const [allTypeNums, setAllTypeNums] = useState(16);
     const [params, setParams] = useState({
         cinema: 2,
-        cid: "0,2,10",
-        vv: "0e9d44934cb8274fd04cee2e49e80c1c",
-        pub: "1751450322644"
     })
 
     const [allTypeParams, setAllTypeParams] = useState({
         cinema: 2,
-        vv: "108d726b563004b644b88174a010d775",
-        pub: "1751450322644"
     })
 
     const { data: mainMenuDatas, isLoading }
         = useQuery({
-            queryKey: ['main-menus'],
+            queryKey: ['main-menus', params, publicKey],
             queryFn: () => {
-                return getMainMenus({
-                    ...params
-                })
+                let paramsSignQuery = qs.stringify(params);
+                paramsSignQuery += `&cid=0,2,10`
+                const convertedQuery = signQuery(paramsSignQuery, publicKey, privateKey)
+                return getMainMenus(convertedQuery)
             },
+            enabled: !!publicKey
         })
 
     const { data: allInOneTypeDatas }
         = useQuery({
-            queryKey: ['all-in-one-type'],
+            queryKey: ['all-in-one-type', allTypeParams, publicKey],
             queryFn: () => {
-                return getAllInOneType({
-                    ...allTypeParams
-                })
+                const convertedQuery = getConvertedQuery(allTypeParams, publicKey, privateKey)
+                return getAllInOneType(convertedQuery)
             },
+            enabled: !!publicKey
         })
 
     const { data: mainMenus } = mainMenuDatas || {};

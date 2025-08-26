@@ -10,13 +10,19 @@ import { TiTick } from "react-icons/ti";
 import Link from "next/link";
 import ScratchBackground from "../scratch-background";
 import { AuthorInfoPopup } from "../author-info-popup";
-import { ensureHttps } from "@/utils/common";
+import { ensureHttps, getConvertedQuery } from "@/utils/common";
+import { getUserViewModel } from "@/apis/detail-page";
+import { useQuery } from "react-query";
+import { MainContext } from "@/layouts/MainLayout";
+import { useContext } from "react";
 
 
 export default function PopupAuthorInfo(props) {
-    const { avatar, endPublisher, isChild = false } = props || {};
+    const { avatar, userViewModel, isChild = false } = props || {};
+    const { publicKey, privateKey } = useContext(MainContext);
 
     const avatarRef = useRef();
+
 
     const onHoverPopupAuthor = (hover) => {
         if (avatarRef.current) {
@@ -30,6 +36,7 @@ export default function PopupAuthorInfo(props) {
         }
 
     }
+
 
     return (
         <div >
@@ -48,7 +55,10 @@ export default function PopupAuthorInfo(props) {
                 onMouseMove={() => onHoverPopupAuthor(true)}
                 onMouseLeave={() => onHoverPopupAuthor(false)}
             >
-                <AuthorInfoPopup publisher={endPublisher} />
+                {
+                    userViewModel &&
+                    <AuthorInfoPopup userViewModel={userViewModel} />
+                }
             </div>
         </div>
     );

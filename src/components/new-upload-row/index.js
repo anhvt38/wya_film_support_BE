@@ -11,7 +11,6 @@ import { useEffect, useRef, useState } from "react";
 import _ from 'lodash-es';
 import { NewUploadSkeleton } from "../skeleton/new-upload-skeleton";
 import { useQuery } from "react-query";
-import { getAllHotVideoTop, getNewHotVideoGroup } from "@/apis/homepage";
 import { NewVideoItemMore } from "../new-video-item-more";
 import Carousel from 'react-multi-carousel';
 import 'react-multi-carousel/lib/styles.css';
@@ -91,7 +90,6 @@ export const NewUploadRow = (props) => {
     // }, []);
 
     return (
-
         <CommonVideoRow title={title} {...rest}>
 
             {

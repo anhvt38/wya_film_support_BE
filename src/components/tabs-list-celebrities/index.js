@@ -57,9 +57,9 @@ export const TabsCelebrityPage = (props) => {
     <div className="tags-homepage d-flex flex-column flex-md-row justify-content-between my-4 gap-md-2 gap-4">
       <div className="tags-homepage-left-6">
         <CListGroup layout="horizontal" className="flex-wrap">
-          <CListGroupItem key="1"
+          <CListGroupItem
             className={
-              excluded.includes(orderBy) ? "item-tabs-1 item-tabs-active" : "item-tabs-1"
+              excluded.includes(orderBy) ? "item-tabs-celebrity-1 item-tabs-active" : "item-tabs-celebrity-1"
             }
           >
             <Link href={pathname + "?" + deleteQueryString("orderBy")} className="text-color-main item-tabs-link-1">
@@ -80,15 +80,14 @@ export const TabsCelebrityPage = (props) => {
           </CListGroupItem>
 
           <CListGroupItem
-            key="3"
             className={
-              orderBy == `3` ? "item-tabs-1 item-tabs-active" : "item-tabs-1"
+              orderBy == 3 ? "item-tabs-celebrity-1 item-tabs-active" : "item-tabs-celebrity-1"
             }
           >
-            <Link href={pathname + '?' + createQueryString('orderBy', `3`)} className="text-color-main item-tabs-link-1">
+            <Link href={pathname + '?' + createQueryString('orderBy', 3)} className="text-color-main item-tabs-link-1">
               <span className="text-white-hover">字母排序</span>
             </Link>
-            {orderBy == `3`
+            {orderBy == 3
               ?
               <div
                 onClick={toggleSort}
@@ -102,15 +101,15 @@ export const TabsCelebrityPage = (props) => {
             }
           </CListGroupItem>
 
-          <CListGroupItem key="2"
+          <CListGroupItem
             className={
-              orderBy == `2` ? "item-tabs-1 item-tabs-active" : "item-tabs-1"
+              orderBy == 2 ? "item-tabs-celebrity-1 item-tabs-active" : "item-tabs-celebrity-1"
             }
           >
-            <Link href={pathname + '?' + createQueryString('orderBy', `2`)} className="text-color-main item-tabs-link-1">
+            <Link href={pathname + '?' + createQueryString('orderBy', 2)} className="text-color-main item-tabs-link-1">
               <span className="text-white-hover">人气高低</span>
             </Link>
-            {orderBy == `2`
+            {orderBy == 2
               ?
               <div
                 onClick={toggleSort}
@@ -124,15 +123,15 @@ export const TabsCelebrityPage = (props) => {
             }
           </CListGroupItem>
 
-          <CListGroupItem key="1"
+          <CListGroupItem
             className={
-              orderBy == `1` ? "item-tabs-1 item-tabs-active" : "item-tabs-1"
+              orderBy == 1 ? "item-tabs-celebrity-1 item-tabs-active" : "item-tabs-celebrity-1"
             }
           >
-            <Link href={pathname + '?' + createQueryString('orderBy', `1`)} className="text-color-main item-tabs-link-1">
+            <Link href={pathname + '?' + createQueryString('orderBy', 1)} className="text-color-main item-tabs-link-1">
               <span className="text-white-hover">更新时间</span>
             </Link>
-            {orderBy == `1`
+            {orderBy == 1
               ?
               <div
                 onClick={toggleSort}

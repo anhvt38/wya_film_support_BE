@@ -20,6 +20,7 @@ import { useQuery } from "react-query";
 import _ from "lodash-es";
 import { MainContext } from "@/layouts/MainLayout";
 import { CommonPagination } from "@/components/common-pagination";
+import { routes } from "@/contants/routes";
 
 let LIMIT_ITEM_DEFAULT_A_PAGE = 36;
 
@@ -128,7 +129,7 @@ export default function Search({ watchRoute = true, paramId }) {
                         <div className="search-page-gap"></div>
                         <div className="searching-key">
                             <span>{decodeKeyword}</span>
-                            <IoClose />
+                            <IoClose className="cursor-pointer" onClick={() => router.push(`${routes.mainList}?cid=svideo`)} />
                         </div>
                         <span className="text-main-gray"> 共有 <label className="text-white">{searchDataTotal}</label> 个搜索结果 </span>
 
@@ -137,8 +138,8 @@ export default function Search({ watchRoute = true, paramId }) {
                         (!type || type == MAIN_TYPES.star) &&
                         <div className="search-page-sort">
                         <div className={!orderbyParam ? "active" : ""} onClick={() => {
-                            setOrderBy("")
-                            if (orderbyParam == "") {
+                            setOrderBy(null)
+                            if (!orderbyParam) {
                                 setAsc(!asc)
                             }
                         }}>
@@ -175,10 +176,10 @@ export default function Search({ watchRoute = true, paramId }) {
                             </div>
                         </div>
                         <div
-                            className={orderbyParam == 1 ? "active" : ""}
+                            className={orderbyParam == 2 ? "active" : ""}
                             onClick={() => {
-                                setOrderBy(1)
-                                if (orderbyParam == 1) {
+                                setOrderBy(2)
+                                if (orderbyParam == 2) {
                                     setAsc(!asc)
 
                                 }
@@ -186,7 +187,7 @@ export default function Search({ watchRoute = true, paramId }) {
                             <div className=" d-flex align-items-center gap-1">
                                 <span>人气高低</span>
                                 {
-                                    orderbyParam == 1 &&
+                                    orderbyParam == 2 &&
                                     (
                                         asc
                                             ? <LiaSortAmountUpAltSolid />
@@ -196,17 +197,17 @@ export default function Search({ watchRoute = true, paramId }) {
                             </div>
                         </div>
                         <div
-                            className={orderbyParam == 2 ? "active" : ""}
+                            className={orderbyParam == 3 ? "active" : ""}
                             onClick={() => {
-                                setOrderBy(2)
-                                if (orderbyParam == 2) {
+                                setOrderBy(3)
+                                if (orderbyParam == 3) {
                                     setAsc(!asc)
                                 }
                             }}>
                             <div className=" d-flex align-items-center gap-1">
                                 <span>评分高低</span>
                                 {
-                                    orderbyParam == 2 &&
+                                    orderbyParam == 3 &&
                                     (
                                         asc
                                             ? <LiaSortAmountUpAltSolid />
@@ -232,7 +233,7 @@ export default function Search({ watchRoute = true, paramId }) {
             </div>
 
             <div className="search-page-right">
-                <Link href="/">
+                <Link href="https://ppt.wyav.tv/c/c?position=VSS&i=632&r=17">
                     <Image className="thumbnail-ads-search" alt='ads' src="/ads-auth.jpg" width={0} height={0} sizes="100vw" />
                 </Link>
                 <div className="popular-list">
@@ -243,7 +244,7 @@ export default function Search({ watchRoute = true, paramId }) {
                                 return (
                                     <CListGroupItem key={index} className="text-pink-hover white-space-nowrap cursor-pointer fs-5">
                                         <span className={`${textColorByOrder(index)} me-4`}>{index + 1}</span>
-                                        <Link href="/" className="text-pink-hover text-color-main">
+                                        <Link href={`${routes.search}/${item.title}`} className="text-pink-hover text-color-main">
                                             {item.title}
                                         </Link>
                                     </CListGroupItem>

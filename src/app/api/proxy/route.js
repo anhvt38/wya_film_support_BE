@@ -2,6 +2,7 @@ import {
   captchaCallback,
   checkValidEmail,
   getHeaderMainMenus,
+  getUserInfo,
   sendCodeToEmail,
 } from './proxy-helpers';
 
@@ -20,12 +21,21 @@ export async function GET(request) {
       break;
   }
 
+  if (type == 'getUserInfor') {
+    data = await getUserInfo(url);
+  }
+
   if (type == 'previewVideo') {
     const upstreamRes = await fetch(url, {
+      // headers: {
+      //   "User-Agent": "Mozilla/5.0",
+      //   "Accept": "*/*",
+      // },
       headers: {
-        "User-Agent": "Mozilla/5.0",
-        "Accept": "*/*",
-      },
+        "User-Agent": "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36",
+        "Accept": "application/json,text/html,application/xhtml+xml",
+        "Accept-Language": "en-US,en;q=0.9",
+      }
     });
 
     const text = await upstreamRes.text();

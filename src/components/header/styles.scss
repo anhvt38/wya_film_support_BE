@@ -48,10 +48,6 @@
     input {
         &:focus {
             outline: none;
-
-            &~.wrap-popular-search {
-                display: block;
-            }
         }
 
 
@@ -60,7 +56,6 @@
 
 
 .wrap-popular-search {
-    display: none;
     top: 100%;
     width: 90%;
     left: 5%;
